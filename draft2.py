@@ -1,6 +1,3 @@
-# Tweede draft representation, 7-6-2024
-# Pierre Jacod
-# Sofie van der Westen
 import random
 import pandas as pd
 import argparse
@@ -171,9 +168,9 @@ class Graph():
         writes the route number and route percentages to an output file.
         """
         with open(output_file, 'w') as f:
-            f.write("Route,Percentage Used,Percentage Unused\n")
+            f.write("Route,Percentage Used,Percentage Unused")
             for route_number, percentages in self.route_percentages.items():
-                f.write(f"{route_number},{percentages['used']:.2f},{percentages['unused']:.2f}\n")
+                f.write(f"{route_number},{percentages['used']:.2f},{percentages['unused']:.2f}")
 
 def random_route(route):
     """
@@ -202,17 +199,17 @@ def random_start(route):
 
 def main(input1, input2, output_file):
 
-    # create a scenario
-    scenario = Graph(input1, input2)
+    # create a test_graph
+    test_graph = Graph(input1, input2)
 
-    # add a route to scenario
-    scenario.add_route("1")
+    # add a route to test_graph
+    test_graph.add_route("1")
 
-    random_route(scenario.route_dict["1"])
-    scenario.visualize_station_percentage()
+    random_route(test_graph.route_dict["1"])
+    test_graph.visualize_station_percentage()
 
-    scenario.show_routes()
-    scenario.write_output(output_file)
+    test_graph.show_routes()
+    test_graph.write_output(output_file)
 
 
 
