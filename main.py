@@ -17,7 +17,7 @@ def main(input1, input2):
     # use randomise to choose itinerary for route
     randomise.random_route(test_graph.route_dict["1"])
 
-
+    test_graph.visualize_station_percentage()
     test_graph.show_routes()
 
 if __name__ == "__main__":
