@@ -23,7 +23,7 @@ def main(input1, input2, output_file):
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments
-    parser = argparse.ArgumentParser(description = "read both input file name")
+    parser = argparse.ArgumentParser(description = "read both input file name and writes to output file")
 
     parser.add_argument("input1", help = "input file 1 (csv)")
     parser.add_argument("input2", help = "input file 2 (csv)")
