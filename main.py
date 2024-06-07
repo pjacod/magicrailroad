@@ -19,6 +19,7 @@ def main(input1, input2):
 
     test_graph.visualize_station_percentage()
     test_graph.show_routes()
+    test_graph.write_output(output_file)
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments
@@ -26,8 +27,10 @@ if __name__ == "__main__":
 
     parser.add_argument("input1", help = "input file 1 (csv)")
     parser.add_argument("input2", help = "input file 2 (csv)")
+    parser.add_argument("output_file", help="output file (csv)")
+
 
     # Read arguments from command line
     args = parser.parse_args()
 
-    main(args.input1, args.input2)
+    main(args.input1, args.input2, args.output_file)
