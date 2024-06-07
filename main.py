@@ -6,7 +6,7 @@ from code.algorithms import randomise
 
 
 
-def main(input1, input2):
+def main(input1, input2, output_file):
 
     # create a scenario
     test_graph = graph.Graph(input1, input2)
@@ -28,7 +28,6 @@ if __name__ == "__main__":
     parser.add_argument("input1", help = "input file 1 (csv)")
     parser.add_argument("input2", help = "input file 2 (csv)")
     parser.add_argument("output_file", help="output file (csv)")
-
 
     # Read arguments from command line
     args = parser.parse_args()
