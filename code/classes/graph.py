@@ -46,7 +46,7 @@ class Graph():
             # call function to add destinations to Station, by using the df from input2
             station.define_destinations(self.df)
 
-            # add station to station_list
+            # add station to station_dict
             station_dict[station.name] = station
 
         return station_dict
