@@ -1,51 +1,37 @@
-
-
+import random
+from .station import Station
 
 class Route():
 
-    def __init__(self, number, station_list):
+    def __init__(self, number, station_dict):
         self.number = number
 
         # station_list is a list of instances of class Station
-        self.station_list = station_list
+        self.station_dict = station_dict
         self.itinerary = []
         self.time = 0
 
-    def start_station(self):
+    def present_destinations(self, station_name):
         """
-        select a starting station for the route
+        returns the potential destinations from a given station_name
+        type = dict
         """
-        # not sure if this is going to work, it should take a random instance of class station and then take name
-        self.itinerary.append(random.choice(self.station_list).name)
+        return self.station_dict[station_name].destinations
 
-    def add_station(self):
+    def add_station(self, station, time):
         """
-        add a connection to itinerary, by taking the last station in list and
-        choosing one of the destinations from there
+        adds station(selected by outside algorithm), to the list containing itinerary
+        and adds time to self.time
         """
-        station_name = self.itinerary[-1]
+        self.itinerary.append(station)
+        self.time += time
 
-        # find the instance of class Station that corresponds to current station
-        for station in self.station_list:
-            if station.name == station_name:
 
-                current_station = station
-                break
-
-        # choose random station from list of destinations
-        options = sorted(current_station.destinations.keys())
-        next_station = random.choice(options)
-
-        self.itinerary.append(next_station)
-        self.time += current_station.destinations[next_station]
-
-    def define_itinerary(self):
+    def show_status(self):
         """
-        set the program to define itinerary, stopping when time passes 120
+        shows the current itinerary and time
         """
-        self.start_station()
-
-        while self.time <= 120:
-            self.add_station()
-
         return self.itinerary, self.time
+
+    def __repr__(self):
+        return f"Route {self.number}, {self.time} minutes; {self.itinerary}"

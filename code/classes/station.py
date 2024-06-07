@@ -1,6 +1,4 @@
 
-
-
 class Station():
 
     def __init__(self, name, location):
@@ -29,3 +27,6 @@ class Station():
         is already connected with?
         """
         pass
+
+    def __repr__(self):
+        return self.name

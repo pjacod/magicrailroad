@@ -1,4 +1,5 @@
 import pandas as pd
+import argparse
 from code.classes import graph
 from code.algorithms import randomise
 
@@ -8,11 +9,16 @@ from code.algorithms import randomise
 def main(input1, input2):
 
     # create a scenario
-    scenario = Scenario(input1, input2)
+    test_graph = graph.Graph(input1, input2)
 
     # add a route to scenario
-    scenario.add_route("1")
-    scenario.show_routes()
+    test_graph.add_route("1")
+
+    # use randomise to choose itinerary for route
+    randomise.random_route(test_graph.route_dict["1"])
+
+
+    test_graph.show_routes()
 
 if __name__ == "__main__":
     # Set-up parsing command line arguments

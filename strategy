@@ -1,0 +1,6 @@
+randomise should be in a seperate algorithm?
+def random_route:
+  creates a list
+  random choice from station_list, then random selection from the rest of list.
+
+should graph store these routes or have them in a seperate storage in algorithm? 
