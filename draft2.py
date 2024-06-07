@@ -6,6 +6,7 @@ import pandas as pd
 import argparse
 import matplotlib.pyplot as plt
 
+
 class Station():
 
     def __init__(self, name, location):
@@ -15,7 +16,8 @@ class Station():
 
     def define_destinations(self, df):
         """
-        sets the destinations for this station, given the df
+        sets the self.destinations for this station, given the df
+        as dictionary {destination : distance}
         """
 
         # iterate over rows of df, save every destinations
@@ -34,70 +36,55 @@ class Station():
         """
         pass
 
+    def __repr__(self):
+        return self.name
+
 
 class Route():
 
-    def __init__(self, number, station_list):
+    def __init__(self, number, station_dict):
         self.number = number
 
         # station_list is a list of instances of class Station
-        self.station_list = station_list
+        self.station_dict = station_dict
         self.itinerary = []
         self.time = 0
 
-    def start_station(self):
+    def present_destinations(self, station_name):
         """
-        select a starting station for the route
+        returns the potential destinations from a given station_name
+        type = dict
         """
-        # not sure if this is going to work, it should take a random instance of class station and then take name
-        self.itinerary.append(random.choice(self.station_list).name)
+        return self.station_dict[station_name].destinations
 
-    def add_station(self):
+    def add_station(self, station, time):
         """
-        add a connection to itinerary, by taking the last station in list and
-        choosing one of the destinations from there
+        adds station(selected by outside algorithm), to the list containing itinerary
+        and adds time to self.time
         """
-        station_name = self.itinerary[-1]
+        self.itinerary.append(station)
+        self.time += time
 
-        # find the instance of class Station that corresponds to current station
-        for station in self.station_list:
-            if station.name == station_name:
 
-                current_station = station
-                break
-
-        # choose random station from list of destinations
-        options = sorted(current_station.destinations.keys())
-        next_station = random.choice(options)
-
-        self.itinerary.append(next_station)
-        self.time += current_station.destinations[next_station]
-
-    def define_itinerary(self):
+    def show_status(self):
         """
-        set the program to define itinerary, stopping when time passes 120
+        shows the current itinerary and time
         """
-        self.start_station()
-
-        while self.time <= 120:
-            self.add_station()
-
         return self.itinerary, self.time
 
+    def __repr__(self):
+        return f"Route {self.number}, {self.time} minutes; {self.itinerary}"
 
 
-
-class Scenario():
+class Graph():
 
     def __init__(self, input1, input2):
-        self.input1 = input1
-        self.input2 = input2
-        self.route_list = []
-        self.route_percentages = {}
+        self.route_dict = {}
 
-        self.read_input_1(input1)
-        self.read_input_2(input2)
-        self.create_station_list()
+        self.dict = self.read_input_1(input1)
+        self.df = self.read_input_2(input2)
+
+        self.station_dict = self.create_station_dict()
 
 
     def read_input_1(self, input1):
@@ -111,60 +98,64 @@ class Scenario():
         for index, row in df.iterrows():
             dict[row['station']] = (row['x'], row['y'])
 
-        self.dict = dict
+        return dict
 
     def read_input_2(self, input2):
         """
         reads a csv file containing all connections between stations, and the
         corresponding travel time. returns a df
         """
-        self.df = pd.read_csv(input2)
+        return pd.read_csv(input2)
 
-    def create_station_list(self):
+    def create_station_dict(self):
         """
         using self.df and self.dict, creates a list of instances of class Station
         """
-        station_list = []
+        station_dict = {}
         for key in self.dict.keys():
+
             # create instance of station, with name and location
             station = Station(key, self.dict[key])
 
             # call function to add destinations to Station, by using the df from input2
             station.define_destinations(self.df)
 
-            # add station to station_list
-            station_list.append(station)
+            # add station to station_dict
+            station_dict[station.name] = station
 
-        self.station_list = station_list
+        return station_dict
 
 
     def add_route(self, number):
         """
-        creates an instance of class Route, and lets it define an itinerary
+        creates an instance of class Route
         """
-        route = Route(number, self.station_list)
-        route.start_station()
-        itinerary, time = route.define_itinerary()
-        self.route_list.append((itinerary, time))
+        self.route_dict[number] = Route(number, self.station_dict)
 
     def show_routes(self):
-        print(self.route_list)
+        """
+        TEMPORARY? shows the routes
+        """
+        print(self.route_dict)
 
     def visualize_station_percentage(self):
         """
         visualizes the percentage of stations used in the route.
         """
-        total_stations = len(self.station_list)
-        route_number = 1
-        for route in self.route_list:
 
-            used_stations = len(set(route[0]))
+        self.route_percentages = {}
+
+        for route_number, route in self.route_dict.items():
+
+            used_stations = len(set(route.itinerary))
+            total_stations = len(self.station_dict)
             unused_stations = total_stations - used_stations
 
+            # calculate percentages
             percentage_used = (used_stations / total_stations) * 100
             percentage_unused = (unused_stations / total_stations) * 100
-
             self.route_percentages[route_number] = {'used': percentage_used, 'unused': percentage_unused}
+
 
             # data for pie chart
             sizes = [used_stations, unused_stations]
@@ -172,12 +163,10 @@ class Scenario():
 
             plt.figure(figsize=(7, 7))
             plt.pie(sizes, labels=labels, colors=['red', 'blue'], autopct='%1.1f%%')
-            plt.title(f'Percentage van de stations die gebruikt zijn in route {route_number}')
+            plt.title(f'Percentage of stations used in route {route_number}')
             plt.show()
 
-            route_number += 1
-
-    def write_output(self, output_file):
+    def write_output(self, output_file): #########################3
         """
         writes the route number and route percentages to an output file.
         """
@@ -186,16 +175,43 @@ class Scenario():
             for route_number, percentages in self.route_percentages.items():
                 f.write(f"{route_number},{percentages['used']:.2f},{percentages['unused']:.2f}\n")
 
+def random_route(route):
+    """
+    Makes an instance of class Route choose a random itinerary
+    """
+    # choose random starting point
+    random_start(route)
+
+    # choose connections until time is up
+    while route.time <= 120:
+        destinations = route.present_destinations(route.itinerary[0])
+        options = list(destinations.keys())
+        choice = random.choice(options)
+        time = destinations[choice]
+
+        # make sure to add the Station instance and not just name
+        route.add_station(route.station_dict[choice], time)
+
+def random_start(route):
+    """
+    selects random starting point for route
+    """
+    station_names = list(route.station_dict.keys())
+    route.add_station(random.choice(station_names), 0)
+
 
 def main(input1, input2, output_file):
 
     # create a scenario
-    scenario = Scenario(input1, input2)
+    scenario = Graph(input1, input2)
 
     # add a route to scenario
     scenario.add_route("1")
-    scenario.show_routes()
+
+    random_route(scenario.route_dict["1"])
     scenario.visualize_station_percentage()
+
+    scenario.show_routes()
     scenario.write_output(output_file)
 
 
