@@ -68,11 +68,10 @@ class Graph():
         """
         visualizes the percentage of stations used in the route.
         """
-        total_stations = len(self.station_list)
-        route_number = 1
-        for route in self.route_list:
+        for route_number, route in self.route_dict.items():
 
-            used_stations = len(set(route[0]))
+            used_stations = len(set(route.itinerary))
+            total_stations = len(self.station_dict)
             unused_stations = total_stations - used_stations
 
             # data for pie chart
@@ -83,5 +82,3 @@ class Graph():
             plt.pie(sizes, labels=labels, colors=['red', 'blue'], autopct='%1.1f%%')
             plt.title(f'Percentage van de stations die gebruikt zijn in route {route_number}')
             plt.show()
-
-            route_number += 1
