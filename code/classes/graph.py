@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from .station import Station
 from .route import Route
 
@@ -89,7 +90,7 @@ class Graph():
             plt.pie(sizes, labels=labels, colors=['red', 'blue'], autopct='%1.1f%%')
             plt.title(f'Percentage of stations used in route {route_number}')
             plt.show()
-            
+
     def write_output(self, output_file):
         """
         writes the route number and route percentages to an output file.
