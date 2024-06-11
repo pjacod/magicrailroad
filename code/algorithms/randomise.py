@@ -25,6 +25,10 @@ def random_route(route_dict):
             route.add_station(route.station_dict[choice], time)
 
 
+'''
+!! aangepast: choice toegevoegd, en ipv alleen naam, class object station doorgeven bij add_station!!
+'''
+
 def random_start(route):
     """
     selects random starting point for route
@@ -32,3 +36,7 @@ def random_start(route):
     station_names = list(route.station_dict.keys())
     choice = random.choice(station_names)
     route.add_station(route.station_dict[choice], 0)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0c6556bbc920a35dfe263d2ed11a585be1a0bb7c
