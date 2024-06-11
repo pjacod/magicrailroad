@@ -11,7 +11,7 @@ def random_route(route):
 
     # choose connections until time is up
     while route.time <= 120:
-        destinations = route.present_destinations(route.itinerary[0])
+        destinations = route.present_destinations(route.itinerary[-1].name)
         options = list(destinations.keys())
         choice = random.choice(options)
         time = destinations[choice]
