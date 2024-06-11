@@ -10,11 +10,11 @@
                 station1 = route.itinerary[i].name
                 station2 = route.itinerary[i + 1].name
 
-                # if station1 and station2 are in the same row in
+                # if station1 and station2 are in the same row in df
                 if ((self.df['station1'] == station1) & (self.df['station2'] == station2)).any() or \
                     ((self.df['station1'] == station2) & (self.df['station2'] == station1)).any():
 
-                    # sort stations in connection alphabetically
+                    # sort stations in connection alphabetically (to avoid duplicates)
                     connection = tuple(sorted((station1, station2)))
                     used_connections.add(connection)
 
