@@ -18,14 +18,9 @@
                     connection = tuple(sorted((station1, station2)))
                     used_connections.add(connection)
 
-        print(used_connections)
         p = len(used_connections) / total_connections
-        print(p)
         T = len(self.route_dict)
-        print(T)
         Min = total_time
-        print(Min)
         K = p * 10000 - (T * 100 + Min)
-        print(K)
         self.k_values.append(K)
         return K
