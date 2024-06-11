@@ -12,10 +12,10 @@ def main(input1, input2, output_file):
     test_graph = graph.Graph(input1, input2)
 
     # add a route to scenario
-    test_graph.add_route("1")
+    test_graph.add_routes(3)
 
     # use randomise to choose itinerary for route
-    randomise.random_route(test_graph.route_dict["1"])
+    randomise.random_route(test_graph.route_dict)
 
     test_graph.visualize_station_percentage()
     test_graph.show_routes()

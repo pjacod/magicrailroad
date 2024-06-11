@@ -52,12 +52,12 @@ class Graph():
 
         return station_dict
 
-
-    def add_route(self, number):
+    def add_routes(self, total_routes):
         """
-        creates an instance of class Route
+        creates instances of class Route
         """
-        self.route_dict[number] = Route(number, self.station_dict)
+        for route in range(1, total_routes + 1):
+            self.route_dict[str(route)] = Route(str(route), self.station_dict)
 
     def show_routes(self):
         """
