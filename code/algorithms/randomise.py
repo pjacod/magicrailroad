@@ -6,14 +6,12 @@ def random_route(route):
     """
     Makes an instance of class Route choose a random itinerary
     """
-    ### BUGCHECK
-    print(route.station_dict)
     # choose random starting point
     random_start(route)
 
     # choose connections until time is up
     while route.time <= 120:
-        destinations = route.present_destinations(route.itinerary[-1])
+        destinations = route.present_destinations(route.itinerary[0])
         options = list(destinations.keys())
         choice = random.choice(options)
         time = destinations[choice]
