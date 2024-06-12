@@ -93,9 +93,8 @@ class Graph():
         T = len(self.route_dict)
         Min = total_time
         self.k_value = p * 10000 - (T * 100 + Min)
-        print(f"The k value is : {self.k_value}")
+        #print(f"The k value is : {self.k_value}")
         return self.k_value
-
 
     def write_output(self, output_file):
         """

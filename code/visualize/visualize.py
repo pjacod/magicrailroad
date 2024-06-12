@@ -4,7 +4,7 @@ def visualize_station_percentage(graph):
     """
     visualizes the percentage of stations used in the route.
     """
-    print(graph)
+
     graph.route_percentages = {}
 
     for route_number, route in graph.route_dict.items():
@@ -26,3 +26,11 @@ def visualize_station_percentage(graph):
         plt.pie(sizes, labels=labels, colors=['red', 'blue'], autopct='%1.1f%%')
         plt.title(f'Percentage of stations used in route {route_number}')
         plt.show()
+
+def histogram_k(costs):
+
+    plt.title('cost per iteration')
+    plt.xlabel('cost')
+    plt.ylabel('frequency')
+    plt.hist(costs, bins = 15)
+    plt.show()

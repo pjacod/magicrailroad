@@ -5,19 +5,26 @@ from code.visualize import visualize as vis
 from code.algorithms import randomise
 
 
-def main(input1, input2, output_file):
+def main(input1, input2, output_file, iterations):
 
-    # create a scenario
-    test_graph = graph.Graph(input1, input2)
+    lst_costs = []
 
-    # add a route to scenario
-    test_graph.add_routes(7)
+    for solution in range(iterations):
+        # create a scenario
+        test_graph = graph.Graph(input1, input2)
 
-    # use randomise to choose itinerary for route
-    randomise.random_routes(test_graph.route_dict)
+        # add a route to scenario
+        test_graph.add_routes(7)
+
+        # use randomise to choose itinerary for route
+        randomise.random_routes(test_graph.route_dict)
+
+        # calculate cost of traject
+        lst_costs.append(test_graph.calculate_k())
+
+    vis.histogram_k(lst_costs)
 
     vis.visualize_station_percentage(test_graph)
-    test_graph.calculate_k()
     test_graph.show_routes()
     test_graph.write_output(output_file)
 
@@ -32,4 +39,4 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
-    main(args.input1, args.input2, args.output_file)
+    main(args.input1, args.input2, args.output_file, 10)
