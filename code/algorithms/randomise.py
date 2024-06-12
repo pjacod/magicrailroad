@@ -18,8 +18,24 @@ def random_route(route_dict):
         while route.time <= 120:
             destinations = route.present_destinations(route.itinerary[-1].name)
             options = list(destinations.keys())
-            choice = random.choice(options)
-            time = destinations[choice]
+
+            # not exceeding the 120 minutes
+            max_time = 120 - route.time
+            possible_options = {}
+
+            # iterate through destinations and travel time
+            for destination, distance in destinations.items():
+                # if travel time is small enough: add to possible_options
+                if distance <= max_time:
+                    possible_options[destination] = distance
+
+            # if no more possible_options: break
+            if not possible_options:
+                break
+
+            # randomly select one of the possible destinations
+            choice = random.choice(list(possible_options.keys()))
+            time = possible_options[choice]
 
             # make sure to add the Station instance and not just name
             route.add_station(route.station_dict[choice], time)
