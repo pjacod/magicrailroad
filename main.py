@@ -4,8 +4,6 @@ from code.classes import graph
 from code.algorithms import randomise
 
 
-
-
 def main(input1, input2, output_file):
 
     # create a scenario
@@ -18,6 +16,7 @@ def main(input1, input2, output_file):
     randomise.random_routes(test_graph.route_dict)
 
     test_graph.visualize_station_percentage()
+    test_graph.calculate_k()
     test_graph.show_routes()
     test_graph.write_output(output_file)
 

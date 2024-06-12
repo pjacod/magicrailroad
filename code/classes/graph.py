@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from .station import Station
 from .route import Route
+import csv
+
 
 class Graph():
 
@@ -12,7 +14,6 @@ class Graph():
         self.df = self.read_input_2(input2)
 
         self.station_dict = self.create_station_dict()
-
 
     def read_input_1(self, input1):
         """
@@ -91,11 +92,43 @@ class Graph():
             plt.title(f'Percentage of stations used in route {route_number}')
             plt.show()
 
+    def calculate_k(self):
+        """
+        calculates the k the percentage of stations used in the route.
+        """
+        # int
+        total_connections = self.df.shape[0]
+        used_connections = set()
+        total_time = 0
+
+        for route in self.route_dict.values():
+            total_time += route.time
+            for i in range(len(route.itinerary) - 1):
+                station1 = route.itinerary[i].name
+                station2 = route.itinerary[i + 1].name
+
+                # if station1 and station2 are in the same row in df
+                if ((self.df['station1'] == station1) & (self.df['station2'] == station2)).any() or \
+                    ((self.df['station1'] == station2) & (self.df['station2'] == station1)).any():
+
+                    # sort stations in connection alphabetically (to avoid duplicates)
+                    connection = tuple(sorted((station1, station2)))
+                    used_connections.add(connection)
+
+        p = len(used_connections) / total_connections
+        T = len(self.route_dict)
+        Min = total_time
+        self.k_value = p * 10000 - (T * 100 + Min)
+        print(f"The k value is : {self.k_value}")
+        return self.k_value
+
+
     def write_output(self, output_file):
         """
         writes the route number and route percentages to an output file.
         """
-        with open(output_file, 'w') as f:
-            f.write("Route,Percentage Used,Percentage Unused")
+        with open(output_file, 'w', newline='') as f:
+            writer = csv.writer(f)
+            f.write("Route, Percentage Used, Percentage Unused")
             for route_number, percentages in self.route_percentages.items():
-                f.write(f"{route_number},{percentages['used']:.2f},{percentages['unused']:.2f}")
+                writer.writerow([route_number, f"{percentages['used']}", f"{percentages['unused']:}"])
