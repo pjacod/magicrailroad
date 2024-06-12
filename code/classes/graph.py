@@ -66,32 +66,6 @@ class Graph():
         """
         print(self.route_dict)
 
-    def visualize_station_percentage(self):
-        """
-        visualizes the percentage of stations used in the route.
-        """
-        self.route_percentages = {}
-
-        for route_number, route in self.route_dict.items():
-
-            used_stations = len(set(route.itinerary))
-            total_stations = len(self.station_dict)
-            unused_stations = total_stations - used_stations
-
-            # calculate percentages
-            percentage_used = (used_stations / total_stations) * 100
-            percentage_unused = (unused_stations / total_stations) * 100
-            self.route_percentages[route_number] = {'used': percentage_used, 'unused': percentage_unused}
-
-            # data for pie chart
-            sizes = [used_stations, unused_stations]
-            labels = ['Used', 'Unused']
-
-            plt.figure(figsize=(7, 7))
-            plt.pie(sizes, labels=labels, colors=['red', 'blue'], autopct='%1.1f%%')
-            plt.title(f'Percentage of stations used in route {route_number}')
-            plt.show()
-
     def calculate_k(self):
         """
         calculates the k the percentage of stations used in the route.

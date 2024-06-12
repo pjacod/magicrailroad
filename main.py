@@ -1,6 +1,7 @@
 import pandas as pd
 import argparse
 from code.classes import graph
+from code.visualize import visualize as vis
 from code.algorithms import randomise
 
 
@@ -15,7 +16,7 @@ def main(input1, input2, output_file):
     # use randomise to choose itinerary for route
     randomise.random_routes(test_graph.route_dict)
 
-    test_graph.visualize_station_percentage()
+    vis.visualize_station_percentage(test_graph)
     test_graph.calculate_k()
     test_graph.show_routes()
     test_graph.write_output(output_file)
