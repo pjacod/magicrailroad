@@ -1,28 +1,14 @@
 import pandas as pd
 import argparse
-from code.classes import graph
 from code.visualize import visualize as vis
-from code.algorithms import randomise
+from code.algorithms import main_loop
+
 
 
 def main(input1, input2, output_file, iterations):
 
-    lst_k_values = []
-
-    for solution in range(iterations):
-        # create a scenario
-        test_graph = graph.Graph(input1, input2)
-
-        amount = randomise.amount_routes()
-
-        # add a route to scenario
-        test_graph.add_routes(amount)
-
-        # use randomise to choose itinerary for route
-        randomise.random_routes(test_graph.route_dict)
-
-        # calculate k_value of traject
-        lst_k_values.append(test_graph.calculate_k())
+    # perform  iterations and get k-values and graph
+    lst_k_values, test_graph = main_loop.main_loop(input1, input2, iterations)
 
     vis.bar_k(lst_k_values)
     vis.histogram_k(lst_k_values)
@@ -41,4 +27,4 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
-    main(args.input1, args.input2, args.output_file, 1)
+    main(args.input1, args.input2, args.output_file, 10)
