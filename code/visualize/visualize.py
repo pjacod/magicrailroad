@@ -32,5 +32,5 @@ def histogram_k(costs):
     plt.title('cost per iteration')
     plt.xlabel('cost')
     plt.ylabel('frequency')
-    plt.hist(costs, bins = 15)
+    plt.hist(costs, bins = )
     plt.show()
