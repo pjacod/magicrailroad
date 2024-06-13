@@ -27,10 +27,28 @@ def visualize_station_percentage(graph):
         plt.title(f'Percentage of stations used in route {route_number}')
         plt.show()
 
+
+def bar_k(costs):
+    """
+    generates a bar chart of k values per attempt.
+    """
+    iterations = range(1, len(costs) + 1)
+
+    plt.title('k values per iteration')
+    plt.xlabel('attempts')
+    plt.ylabel('k value')
+    plt.bar(iterations, costs)
+    plt.grid(True)
+    plt.show()
+
 def histogram_k(costs):
+    """
+    generates a histogram visualizing the distribution of k values.
+    """
 
     plt.title('cost per iteration')
     plt.xlabel('cost')
     plt.ylabel('frequency')
-    plt.hist(costs, bins = 15)
+    plt.hist(costs, bins = 10)
+    plt.grid(True)
     plt.show()

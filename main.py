@@ -21,9 +21,9 @@ def main(input1, input2, output_file, iterations):
 
         # calculate cost of traject
         lst_costs.append(test_graph.calculate_k())
-
+        
+    vis.bar_k(lst_costs)
     vis.histogram_k(lst_costs)
-
     vis.visualize_station_percentage(test_graph)
     test_graph.show_routes()
     test_graph.write_output(output_file)
