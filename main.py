@@ -13,8 +13,10 @@ def main(input1, input2, output_file, iterations):
         # create a scenario
         test_graph = graph.Graph(input1, input2)
 
+        amount = randomise.amount_routes()
+
         # add a route to scenario
-        test_graph.add_routes(7)
+        test_graph.add_routes(amount)
 
         # use randomise to choose itinerary for route
         randomise.random_routes(test_graph.route_dict)
@@ -22,8 +24,8 @@ def main(input1, input2, output_file, iterations):
         # calculate cost of traject
         lst_costs.append(test_graph.calculate_k())
 
+    vis.bar_k(lst_costs)
     vis.histogram_k(lst_costs)
-
     vis.visualize_station_percentage(test_graph)
     test_graph.show_routes()
     test_graph.write_output(output_file)
@@ -39,4 +41,4 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
-    main(args.input1, args.input2, args.output_file, 100)
+    main(args.input1, args.input2, args.output_file, 1)

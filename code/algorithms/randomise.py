@@ -48,3 +48,7 @@ def random_start(route):
     station_names = list(route.station_dict.keys())
     choice = random.choice(station_names)
     route.add_station(route.station_dict[choice], 0)
+
+
+def amount_routes():
+    return random.randint(0, 7)
