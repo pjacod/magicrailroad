@@ -28,27 +28,27 @@ def visualize_station_percentage(graph):
         plt.show()
 
 
-def bar_k(costs):
+def bar_k(k_values):
     """
     generates a bar chart of k values per attempt.
     """
-    iterations = range(1, len(costs) + 1)
+    iterations = range(1, len(k_values) + 1)
 
     plt.title('k values per iteration')
     plt.xlabel('attempts')
     plt.ylabel('k value')
-    plt.bar(iterations, costs)
+    plt.bar(iterations, k_values)
     plt.grid(True)
     plt.show()
 
-def histogram_k(costs):
+def histogram_k(k_values):
     """
     generates a histogram visualizing the distribution of k values.
     """
 
-    plt.title('cost per iteration')
-    plt.xlabel('cost')
+    plt.title('frequency per k_value')
+    plt.xlabel('k_value')
     plt.ylabel('frequency')
-    plt.hist(costs, bins = 10)
+    plt.hist(k_values, bins = 10)
     plt.grid(True)
     plt.show()
