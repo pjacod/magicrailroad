@@ -7,7 +7,7 @@ from code.algorithms import randomise
 
 def main(input1, input2, output_file, iterations):
 
-    lst_costs = []
+    lst_k_values = []
 
     for solution in range(iterations):
         # create a scenario
@@ -19,11 +19,11 @@ def main(input1, input2, output_file, iterations):
         # use randomise to choose itinerary for route
         randomise.random_routes(test_graph.route_dict)
 
-        # calculate cost of traject
-        lst_costs.append(test_graph.calculate_k())
-        
-    vis.bar_k(lst_costs)
-    vis.histogram_k(lst_costs)
+        # calculate k_value of traject
+        lst_k_values.append(test_graph.calculate_k())
+
+    vis.bar_k(lst_k_values)
+    vis.histogram_k(lst_k_values)
     vis.visualize_station_percentage(test_graph)
     test_graph.show_routes()
     test_graph.write_output(output_file)
