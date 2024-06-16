@@ -13,9 +13,10 @@ def main(input1, input2, output_file, iterations):
         # create a scenario
         test_graph = graph.Graph(input1, input2)
 
+        # randomly select an amount of routes
         amount = randomise.amount_routes()
 
-        # add a route to scenario
+        # add random amoubt of routes to scenario
         test_graph.add_routes(amount)
 
         # use randomise to choose itinerary for route
@@ -26,7 +27,7 @@ def main(input1, input2, output_file, iterations):
 
     vis.bar_k(lst_k_values)
     vis.histogram_k(lst_k_values)
-    vis.visualize_station_percentage(test_graph)
+    #vis.visualize_station_percentage(test_graph)
     test_graph.show_routes()
     test_graph.write_output(output_file)
 
@@ -41,4 +42,4 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
-    main(args.input1, args.input2, args.output_file, 1)
+    main(args.input1, args.input2, args.output_file, 50)
