@@ -51,4 +51,4 @@ def random_start(route):
 
 
 def amount_routes():
-    return random.randint(0, 7)
+    return random.randint(1, 7)

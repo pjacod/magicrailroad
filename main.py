@@ -1,12 +1,12 @@
 import pandas as pd
 import argparse
-from code.classes import graph
 from code.visualize import visualize as vis
-from code.algorithms import randomise
+from code.algorithms import main_loop
 
 
 def main(input1, input2, output_file, iterations):
 
+<<<<<<< HEAD
     lst_k_values = []
 
     for solution in range(iterations):
@@ -28,6 +28,16 @@ def main(input1, input2, output_file, iterations):
     vis.bar_k(lst_k_values)
     vis.histogram_k(lst_k_values)
     #vis.visualize_station_percentage(test_graph)
+=======
+    # perform  iterations and get k-values and graph
+    lst_k_values, test_graph = main_loop.main_loop(input1, input2, iterations)
+
+    vis.bar_k(lst_k_values)
+    vis.histogram_k(lst_k_values)
+    vis.visualize_station_percentage(test_graph)
+    vis.plot_stations_and_connections(input1, input2, 'data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp')
+    vis.plot_stations_and_routes(input1, input2, 'data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp', test_graph.route_dict)
+>>>>>>> d3f9dd987f7fe7137d49183150760d292595fb39
     test_graph.show_routes()
     test_graph.write_output(output_file)
 
@@ -42,4 +52,8 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
+<<<<<<< HEAD
     main(args.input1, args.input2, args.output_file, 50)
+=======
+    main(args.input1, args.input2, args.output_file, 10)
+>>>>>>> d3f9dd987f7fe7137d49183150760d292595fb39
