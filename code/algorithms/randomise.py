@@ -16,6 +16,12 @@ def random_routes(route_dict):
 
         # choose connections until time is up
         while route.time <= 120:
+
+            #randomly stop adding connections
+            chance = random.randint(0, 9)
+            if chance == 1:
+                break
+
             destinations = route.present_destinations(route.itinerary[-1].name)
             options = list(destinations.keys())
 
