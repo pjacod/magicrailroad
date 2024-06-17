@@ -7,6 +7,7 @@
 6 Als laatste wordt dit een bepaald aantal keer gerund en wordt de lijnvoering met de beste kwaliteit gekozen
 '''
 
+from code.algorithms import randomise
 import copy
 
 class Hillclimber():
@@ -16,7 +17,8 @@ class Hillclimber():
         self.route_dict = copy.deepcopy(graph.route_dict)
 
     def random_state(self):
-        
+        self.random_state = randomise.random_routes(self.route_dict)
+        print(self.random_state)
 
 '''
 mogelijk veranderen naar beste change
@@ -38,3 +40,4 @@ mogelijk veranderen naar beste change
 
 
     def is_valid(self):
+        return
