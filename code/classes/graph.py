@@ -95,7 +95,7 @@ class Graph():
         #print(f"The k value is : {self.k_value}")
         return self.k_value
 
-    def write_output(self, output_file):
+    '''def write_output(self, output_file):
         """
         writes the route number and route percentages to an output file.
         """
@@ -103,4 +103,4 @@ class Graph():
             writer = csv.writer(f)
             f.write("Route, Percentage Used, Percentage Unused")
             for route_number, percentages in self.route_percentages.items():
-                writer.writerow([route_number, f"{percentages['used']}", f"{percentages['unused']:}"])
+                writer.writerow([route_number, f"{percentages['used']}", f"{percentages['unused']:}"])'''
