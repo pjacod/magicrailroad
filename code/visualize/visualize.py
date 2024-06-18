@@ -23,7 +23,7 @@ def histogram_k(k_values):
     plt.title('frequency per k_value')
     plt.xlabel('k_value')
     plt.ylabel('frequency')
-    plt.hist(k_values, bins = 10)
+    plt.hist(k_values, bins = 100)
     plt.grid(True)
     plt.show()
 
@@ -148,7 +148,7 @@ def plot_routes(stations_file, connections_file, shape_file, routes):
     if stations_file == "data/StationsNationaal.csv":
         ax.set_xlim(3.3, 7.25)
         ax.set_ylim(50.7, 53.6)
-        
+
     # if only for Noord- and Zuid-Holland
     if stations_file == "data/StationsHolland.csv":
         ax.set_xlim(4.0, 5.1)

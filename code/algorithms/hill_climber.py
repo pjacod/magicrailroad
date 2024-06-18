@@ -36,7 +36,13 @@ class Hillclimber():
     '''
     def random_change(self, graph):
         '''
-        pop.graph.route_dict(route)
+        graph.add_routes(1)
+        graph.remove_route()
+        
+
+
+
+
 
 
 

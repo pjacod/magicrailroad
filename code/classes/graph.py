@@ -59,6 +59,12 @@ class Graph():
         for route in range(total_routes):
             self.route_dict[str((len(route_dict) + 1))] = Route(str(route), self.station_dict)
 
+    def remove_route(self, route):
+        """
+        removes instance of route
+        """
+        self.route_dict.pop(route)
+
     def show_routes(self):
         """
         TEMPORARY? shows the routes
