@@ -14,29 +14,47 @@ class Hillclimber():
 
     def __init__(self, graph):
         self.graph = copy.deepcopy(graph)
-        self.route_dict = copy.deepcopy(graph.route_dict)
+        self.route_dict = self.graph.route_dict
+        #self.k_difference = ''
 
-    def random_state(self):
-        self.random_state = randomise.random_routes(self.route_dict)
-        print(self.random_state)
+    def run(self, iterations):
 
-'''
-mogelijk veranderen naar beste change
-'''
-    def random_change(self):
-        self.copy_state = copy.deepcopy(self.graph)
+        self.random_state(self.graph)
+
+        for iteration in range(iterations):
+            copy_graph = copy.deepcopy(self.graph)
+            new_graph = self.random_change(copy_graph)
+            self.choose_state(new_graph)
+
+
+    def random_state(self, graph):
+        randomise.random_routes(graph.route_dict)
+        self.random_state = graph.route_dict
+
+    '''
+    mogelijk veranderen naar beste change
+    '''
+    def random_change(self, graph):
+        '''
+        pop.graph.route_dict(route)
+
+
+
+        return graph
 
         # pas random change toe aan random copy
 
+    def show_options():
+        return
 
 
-
-    def choose_state(self):
+    def choose_state(self, new_graph):
         quality_state = self.graph.calculate_K()
-        quality_changed_state = changed_state.calculate_K()
+        quality_changed_state = new.graph.calculate_K()
 
         if quality_changed_state > quality_state:
-            self.graph = changed_state
+            self.graph = new_graph
+            #self.k_difference = quality_changed_state - quality_state
 
 
     def is_valid(self):

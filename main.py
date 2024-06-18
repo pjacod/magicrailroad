@@ -1,6 +1,7 @@
 import pandas as pd
 import argparse
 from code.visualize import visualize as vis
+from code.algorithms import hill_climber as hc
 from code.algorithms import main_loop
 
 
