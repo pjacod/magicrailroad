@@ -52,13 +52,13 @@ class Graph():
 
         return station_dict
 
-    
+
     def add_routes(self, total_routes):
         """
         creates instances of class Route
         """
         for route in range(total_routes):
-            self.route_dict[str((len(route_dict) + 1))] = Route(str(route), self.station_dict)
+            self.route_dict[str((route + 1))] = Route(str(route), self.station_dict)
 
     def remove_route(self, route):
         """

@@ -24,9 +24,9 @@ class Route():
         and adds time to self.time
         adds a connection count to station.destinations
         """
-        
-        if self.itinerary is not []:
-            self.itinerary[-1] = last_station
+
+        if self.itinerary != []:
+            last_station = self.itinerary[-1]
 
             station.destinations[last_station][1] += 1
             last_station.destinations[station][1] +=1
