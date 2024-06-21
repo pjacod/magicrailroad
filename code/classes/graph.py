@@ -95,6 +95,19 @@ class Graph():
         #print(f"The k value is : {self.k_value}")
         return self.k_value
 
+
+    def dijkstra_cost(self, weights):
+        """
+        use a list of weights to update cost for every connection for every station in graph
+        necessary for using dijkstra algorithm
+        """
+        for station in self.station_dict:
+            for key in station.destinations.keys():
+
+                new_cost = weights[0] * station.destinations[key][0] + weights[1] * station.destinations[key][1]
+                station.destinations[key][2] = new_cost
+
+
     '''def write_output(self, output_file):
         """
         writes the route number and route percentages to an output file.

@@ -22,9 +22,20 @@ class Route():
         """
         adds station(selected by outside algorithm), to the list containing itinerary
         and adds time to self.time
+        adds a connection count to station.destinations
         """
+        
+        if self.itinerary is not []:
+            self.itinerary[-1] = last_station
+
+            station.destinations[last_station][1] += 1
+            last_station.destinations[station][1] +=1
+
+
         self.itinerary.append(station)
         self.time += time
+
+
 
 
     def show_status(self):
@@ -32,6 +43,14 @@ class Route():
         shows the current itinerary and time
         """
         return self.itinerary, self.time
+
+    #def dijkstra_options(self):
+        """
+        make a dictionary to store options while running dijkstra
+        dict = {key}
+        """
+        #self.dijkstra_options = {}
+
 
     def __repr__(self):
         return f"Route {self.number}, {self.time} minutes; {self.itinerary}"

@@ -9,7 +9,7 @@ class Station():
     def define_destinations(self, df):
         """
         sets the self.destinations for this station, given the df
-        as dictionary {destination : distance}
+        as dictionary {destination : [distance, counter, cost]}
         """
 
         # iterate over rows of df, save every destinations
@@ -20,13 +20,7 @@ class Station():
             if row['station2'] == self.name:
                 self.destinations[row['station1']] = row['distance']
 
-
-    def count_connection(self):
-        """
-        maybe implement a function that keeps count of which stations this station
-        is already connected with?
-        """
-        pass
+            
 
     def __repr__(self):
         return self.name
