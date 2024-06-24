@@ -64,6 +64,7 @@ class Graph():
 
         return station_dict
 
+
     def add_routes(self, total_routes):
         """
         creates instances of class Route
@@ -119,7 +120,21 @@ class Graph():
         Min = total_time
         self.k_value = p * 10000 - (T * 100 + Min)
         #print(f"The k value is : {self.k_value}")
-        return self.k_value
+        return self.k_value, p
+
+
+    def dijkstra_cost(self, weights):
+        """
+        use a list of weights to update cost for every connection for every station in graph
+        necessary for using dijkstra algorithm
+        """
+        for station_name in self.station_dict:
+            station = self.station_dict[station_name]
+            for key in station.destinations.keys():
+
+                new_cost = weights[0] * station.destinations[key][0] + weights[1] * station.destinations[key][1]
+                station.destinations[key][2] = new_cost
+
 
     '''def write_output(self, output_file):
         """
