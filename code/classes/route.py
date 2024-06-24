@@ -27,9 +27,8 @@ class Route():
 
         if self.itinerary != []:
             last_station = self.itinerary[-1]
-
-            station.destinations[last_station][1] += 1
-            last_station.destinations[station][1] +=1
+            station.destinations[last_station.name][1] += 1
+            last_station.destinations[station.name][1] +=1
 
 
         self.itinerary.append(station)
