@@ -79,12 +79,12 @@ class Dijkstra():
         while route.time <= self.max_time:
 
             destinations = route.present_destinations(route.itinerary[-1].name)
-            options = list(destinations.keys())
 
             # not exceeding the 120 minutes
             max_time = self.max_time - route.time
 
             min_cost = 10000
+
             destination_boolean = False
             # iterate through destinations and cost
             for destination, value in destinations.items():
@@ -101,7 +101,7 @@ class Dijkstra():
                         destination_boolean = True
                         time = distance
 
-            if min_destination:
+            if destination_boolean:
                 route.add_station(route.station_dict[min_destination], time, self.weights)
 
             else:
@@ -136,12 +136,10 @@ class Dijkstra():
         weights is a list, containing weights for [time, connection?]
         """
         self.graph.dijkstra_cost(self.weights)
-    
+
         self.graph.add_routes(self.max_routes)
 
         self.first_part()
 
         self.graph.show_routes()
-        print(self.graph.calculate_k())
-        for station in self.graph.station_dict.values():
-            print(station.destinations)
+        print(f'K = {self.graph.calculate_k()}')

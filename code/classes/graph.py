@@ -100,7 +100,7 @@ class Graph():
         Min = total_time
         self.k_value = p * 10000 - (T * 100 + Min)
         #print(f"The k value is : {self.k_value}")
-        return self.k_value
+        return self.k_value, p
 
 
     def dijkstra_cost(self, weights):
