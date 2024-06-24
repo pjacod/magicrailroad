@@ -108,7 +108,8 @@ class Graph():
         use a list of weights to update cost for every connection for every station in graph
         necessary for using dijkstra algorithm
         """
-        for station in self.station_dict:
+        for station_name in self.station_dict:
+            station = self.station_dict[station_name]
             for key in station.destinations.keys():
 
                 new_cost = weights[0] * station.destinations[key][0] + weights[1] * station.destinations[key][1]
