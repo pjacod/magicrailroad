@@ -17,9 +17,9 @@ def main_loop(input1, input2, iterations):
 
         # use hill climber to choose itinerary for route
         hill_climber = hc.Hillclimber(test_graph)
-        hill_climber.run()
+        test_graph, k_values = hill_climber.run(50, True)
 
         # calculate k_value of traject
         lst_k_values.append(test_graph.calculate_k())
 
-    return lst_k_values, test_graph
+    return k_values, test_graph

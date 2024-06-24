@@ -2,11 +2,23 @@ import pandas as pd
 from .station import Station
 from .route import Route
 import csv
+import random
 
 
 class Graph():
 
     def __init__(self, input1, input2):
+
+        if input1 == 'data/StationsHolland.csv':
+            self.max_routes = 7
+            self.max_time = 120
+
+        else:
+            self.max_routes = 20
+            self.max_time = 180
+
+        self.available_keys = set(range(1, self.max_routes + 1))
+
         self.route_dict = {}
 
         self.dict = self.read_input_1(input1)
@@ -56,14 +68,22 @@ class Graph():
         """
         creates instances of class Route
         """
+
         for route in range(total_routes):
-            self.route_dict[str((len(route_dict) + 1))] = Route(str(route), self.station_dict)
+
+            key = str(random.choice(list(self.available_keys)))
+            self.route_dict[key] = Route(key, self.station_dict)
+
+            self.available_keys.remove(int(key))
+
+        return key
 
     def remove_route(self, route):
         """
         removes instance of route
         """
         self.route_dict.pop(route)
+        self.available_keys.add(int(route))
 
     def show_routes(self):
         """
