@@ -3,9 +3,12 @@ import random
 
 class Hillclimber():
 
-    def __init__(self, graph):
+    def __init__(self, graph, progression, iteration_division = None):
         self.graph = copy.deepcopy(graph)
         self.route_dict = self.graph.route_dict
+
+        self.iterations_division = iteration_division
+        self.progression = progression
 
     def run(self, iterations, progression = False):
         '''
@@ -30,7 +33,7 @@ class Hillclimber():
             chosen_route_key, chosen_route = self.random_route_choice(copy_graph)
 
             # if heuristics are enabled apply changes in progression
-            if progression:
+            if self.progression == True:
 
                 # choose and apply the right change applying function
                 function_scale = self.choose_scale(counter_progression, iterations)
@@ -134,20 +137,22 @@ class Hillclimber():
         '''
         picks the appropriate change function for the amount of iterations
         '''
-        # determine how many iterations each method is used
-        fifth_iterations = iterations / 5
+        iterations_1 = iterations * self.iterations_division[0]
+        iterations_2 = iterations_1 + iterations * self.iterations_division[1]
+        iterations_3 = iterations_2 + iterations * self.iterations_division[2]
+        iterations_4 = iterations_3 + iterations * self.iterations_division[3]
 
         # return the right method
-        if counter_progression < fifth_iterations:
+        if counter_progression < iterations_1:
             return self.changes_scale_1
 
-        elif counter_progression < 2 * fifth_iterations:
+        elif counter_progression < iterations_2:
             return self.changes_scale_2
 
-        elif counter_progression < 3 * fifth_iterations:
+        elif counter_progression < iterations_3:
             return self.changes_scale_3
 
-        elif counter_progression < 4 * fifth_iterations:
+        elif counter_progression < iterations_4:
             return self.changes_scale_4
 
         else:
