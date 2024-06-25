@@ -47,7 +47,7 @@ class Hillclimber():
             self.check_graph(new_graph)
 
             # append k_value of chosen graph to list
-            k_values.append(self.graph.calculate_k()[0])
+            k_values.append(self.graph.calculate_k())
 
         return self.graph, k_values
 

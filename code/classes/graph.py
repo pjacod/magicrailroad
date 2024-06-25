@@ -31,7 +31,7 @@ class Graph():
         self.open_stations = []
         self.open = True
 
-    def read_input_1(self, input1):
+    def read_input_1(self, stations_csv_path):
         """
         reads a csv file containing the coordinate positions of every station.
         returns a dict with key=station : value=(x,y)
