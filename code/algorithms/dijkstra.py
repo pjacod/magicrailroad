@@ -101,7 +101,11 @@ class Dijkstra():
                                 cost = value[2]
 
                     else:
-                        cost = self.a_star(destination, value)
+                        cost = self.a_star(destination, value, max_time)
+                        if cost == 1000:
+                            destination_boolean = False
+
+
 
                     if cost <= min_cost:
                         min_cost = cost
@@ -118,10 +122,12 @@ class Dijkstra():
                 break
 
 
-    def a_star(self, destination_name, value):
+    def a_star(self, destination_name, value, max_time):
         """
         returns cost based on a_star_layers ahead of current destination
         cost is percentage of total connections in next layers that are still open
+        reduces layers it looks at considering the amount of time left in route
+        this is based on avg length of connection = 13 min
         """
         cost = 1000
         potential = 0
@@ -131,8 +137,13 @@ class Dijkstra():
         if value[1] == 0:
             potential += 200
 
+
         previous_list = [self.graph.station_dict[destination_name]]
-        for layer in range(self.a_star_layers):
+
+        # define layer range based on how much time left in route
+        predicted_layers = int(max_time // 13)
+
+        for layer in range(min([predicted_layers, self.a_star_layers])):
             all_stations = []
             open_count = 0
             total_count = 0
@@ -148,6 +159,7 @@ class Dijkstra():
 
             percentage = 100 * (open_count / total_count)
             potential += percentage
+
 
         cost -= potential
         return cost
@@ -176,7 +188,7 @@ class Dijkstra():
             # selects a route to build from graph dictionary
             route = self.graph.route_dict[str(i)]
 
-            self.random_greedy(start_station, route)
+            self.dijkstra_like(start_station, route)
 
         while self.graph.check_open() and i < self.graph.max_routes:
 
