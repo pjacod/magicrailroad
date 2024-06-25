@@ -8,11 +8,9 @@ import copy
 from code.classes import graph
 
 class Dijkstra():
-    def __init__(self, graph, max_time, max_routes, weights):
+    def __init__(self, graph, weights):
         self.graph = copy.deepcopy(graph)
         self.dead_end_list = self.dead_end(self.graph.station_dict)
-        self.max_time = max_time
-        self.max_routes = max_routes
 
         self.weights = weights
 
@@ -35,13 +33,13 @@ class Dijkstra():
         """
         route.add_station(start_station, 0)
 
-        while route.time <= self.max_time:
+        while route.time <= self.graph.max_time:
 
             destinations = route.present_destinations(route.itinerary[-1].name)
             options = list(destinations.keys())
 
             # not exceeding the 120 minutes
-            max_time = self.max_time - route.time
+            max_time = self.graph.max_time - route.time
             open_options = {}
             used_options = {}
 
@@ -73,15 +71,17 @@ class Dijkstra():
 
     def dijkstra_like(self, start_station, route):
         """
+        start_station = Station instance (NOT station name)
+        rus
         """
         route.add_station(start_station, 0)
 
-        while route.time <= self.max_time:
+        while route.time <= self.graph.max_time:
 
             destinations = route.present_destinations(route.itinerary[-1].name)
 
             # not exceeding the 120 minutes
-            max_time = self.max_time - route.time
+            max_time = self.graph.max_time - route.time
 
             min_cost = 10000
 
@@ -108,13 +108,12 @@ class Dijkstra():
                 break
 
 
-    def first_part(self):
+    def deadend_start(self):
         """
         creates routes starting from each dead end station.
-        method to choose route is a kind of random greedy,
-        that randomly selects an unused connection when available
         runs until there are no more dead ends
         """
+        # i counts the routes, important to start a new route every time
         i = 0
 
         while self.dead_end_list != []:
@@ -126,8 +125,58 @@ class Dijkstra():
             # selects a route to build from graph dictionary
             route = self.graph.route_dict[str(i)]
 
-            self.dijkstra_like(start_station, route)
+            self.random_greedy(start_station, route)
 
+        while self.graph.check_open():
+
+            i += 1
+
+            # find specific station to start from from those in self.graph.open_list
+            # HEURISTIC, trying to start from those with 1, 3, 5 open connections
+            start_options = []
+            for station in self.graph.open_list:
+                if station.open == 1:
+                    start_options.append(station)
+
+            if start_options != []:
+                start_station = random.choice(start_options)
+
+                route = self.graph.route_dict[str(i)]
+                self.random_greedy(start_station, route)
+
+            else:
+                for station in self.graph.open_list:
+                    if station.open != 0:
+                        start_options.append(station)
+
+                start_station = random.choice(start_options)
+
+                route = self.graph.route_dict[str(i)]
+                self.random_greedy(start_station, route)
+
+
+
+
+    def random_start(self):
+        """
+        creates routes starting from random stations
+        chooses connection with lowest cost,
+        runs until all connections have been made or no routes are left
+        """
+        i = 0
+        while self.graph.check_open() and i < self.graph.max_routes:
+            i += 1
+            start_station = random.choice(self.graph.open_list)
+            route = self.graph.route_dict[str(i)]
+            self.random_greedy(start_station, route)
+
+    def select_pairs():
+        pass
+
+    def proper_dijkstra():
+        """
+        """
+        pass
 
     def run_dijkstra(self):
         """
@@ -137,9 +186,11 @@ class Dijkstra():
         """
         self.graph.dijkstra_cost(self.weights)
 
-        self.graph.add_routes(self.max_routes)
+        self.graph.add_routes(self.graph.max_routes)
 
-        self.first_part()
 
-        self.graph.show_routes()
+        self.deadend_start()
+        #self.random_start()
+
         print(f'K = {self.graph.calculate_k()}')
+        return(self.graph.calculate_k())

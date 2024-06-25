@@ -20,13 +20,19 @@ class Route():
 
     def add_station(self, station, time, weights=[]):
         """
-        adds station(selected by outside algorithm), to the list containing itinerary
+        adds Station(selected by outside algorithm), to the list containing itinerary
         and adds time to self.time
         adds a connection count to station.destinations
         """
 
         if self.itinerary != []:
             last_station = self.itinerary[-1]
+
+            # update station.open if this is a new connection
+            if station.destinations[last_station.name][1] == 0:
+                station.open -= 1
+                last_station.open -= 1
+
             station.destinations[last_station.name][1] += 1
             last_station.destinations[station.name][1] +=1
 
@@ -38,6 +44,9 @@ class Route():
 
         self.itinerary.append(station)
         self.time += time
+
+
+
 
 
 

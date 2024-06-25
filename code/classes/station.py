@@ -6,6 +6,8 @@ class Station():
         self.location = location
         self.destinations = {}
 
+        self.open = 0
+
     def define_destinations(self, df):
         """
         sets the self.destinations for this station, given the df
@@ -20,6 +22,8 @@ class Station():
             if row['station2'] == self.name:
                 self.destinations[row['station1']] = [row['distance'], 0, 0]
 
+        # set self.open
+        self.open = len(self.destinations.keys())
 
 
     def __repr__(self):
