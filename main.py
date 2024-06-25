@@ -11,7 +11,6 @@ def main(input1, input2, output_file, iterations):
     lst_k_values, test_graph = main_loop.main_loop(input1, input2, iterations)
 
 
-
     vis.bar_k(lst_k_values)
     vis.histogram_k(lst_k_values)
     vis.plot_connections(input1, input2, 'data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp')
@@ -30,4 +29,4 @@ if __name__ == "__main__":
     # Read arguments from command line
     args = parser.parse_args()
 
-    main(args.input1, args.input2, args.output_file, 10)
+    main(args.input1, args.input2, args.output_file, 5)

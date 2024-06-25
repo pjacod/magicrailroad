@@ -7,34 +7,36 @@ import random
 
 class Graph():
 
-    def __init__(self, input1, input2):
+    def __init__(self, stations_csv_path, connections_csv_path):
 
-        if input1 == 'data/StationsHolland.csv':
+        if stations_csv_path == 'data/StationsHolland.csv':
             self.max_routes = 7
             self.max_time = 120
+            self.average_connections = 9
 
         else:
             self.max_routes = 20
             self.max_time = 180
+            self.average_connections = 10
 
         self.available_keys = set(range(1, self.max_routes + 1))
 
         self.route_dict = {}
 
-        self.dict = self.read_input_1(input1)
-        self.df = self.read_input_2(input2)
+        self.dict = self.read_input_1(stations_csv_path)
+        self.df = self.read_input_2(connections_csv_path)
 
         self.station_dict = self.create_station_dict()
 
         self.open_stations = []
         self.open = True
 
-    def read_input_1(self, input1):
+    def read_input_1(self, stations_csv_path):
         """
         reads a csv file containing the coordinate positions of every station.
         returns a dict with key=station : value=(x,y)
         """
-        df = pd.read_csv(input1)
+        df = pd.read_csv(stations_csv_path)
 
         dict = {}
         for index, row in df.iterrows():
@@ -42,12 +44,12 @@ class Graph():
 
         return dict
 
-    def read_input_2(self, input2):
+    def read_input_2(self, connections_csv_path):
         """
         reads a csv file containing all connections between stations, and the
         corresponding travel time. returns a df
         """
-        return pd.read_csv(input2)
+        return pd.read_csv(connections_csv_path)
 
     def create_station_dict(self):
         """
@@ -59,7 +61,7 @@ class Graph():
             # create instance of station, with name and location
             station = Station(key, self.dict[key])
 
-            # call function to add destinations to Station, by using the df from input2
+            # call function to add destinations to Station, by using the df from connections_csv_path
             station.define_destinations(self.df)
 
             # add station to station_dict
