@@ -28,7 +28,10 @@ class Graph():
 
         self.station_dict = self.create_station_dict()
 
-    def read_input_1(self, stations_csv_path):
+        self.open_stations = []
+        self.open = True
+
+    def read_input_1(self, input1):
         """
         reads a csv file containing the coordinate positions of every station.
         returns a dict with key=station : value=(x,y)
@@ -65,6 +68,21 @@ class Graph():
             station_dict[station.name] = station
 
         return station_dict
+
+    def check_open(self):
+        """
+        checks whether there are any open connections still to make
+        """
+        self.open_list = []
+
+        for station in self.station_dict.values():
+            if station.open != 0:
+                self.open_list.append(station)
+
+        if self.open_list == []:
+            self.open = False
+
+        return self.open
 
 
     def add_routes(self, total_routes):
@@ -122,12 +140,12 @@ class Graph():
         Min = total_time
         self.k_value = p * 10000 - (T * 100 + Min)
         #print(f"The k value is : {self.k_value}")
-        return self.k_value, p
+        return self.k_value
 
 
     def dijkstra_cost(self, weights):
         """
-        use a list of weights to update cost for every connection for every station in graph
+        use a list of weights to set cost for every connection for every station in graph
         necessary for using dijkstra algorithm
         """
         for station_name in self.station_dict:
@@ -136,6 +154,9 @@ class Graph():
 
                 new_cost = weights[0] * station.destinations[key][0] + weights[1] * station.destinations[key][1]
                 station.destinations[key][2] = new_cost
+
+    def a_star(self, weights):
+        pass
 
 
     '''def write_output(self, output_file):
