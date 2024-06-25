@@ -9,7 +9,7 @@ def main(input1, input2):
     test_graph = graph.Graph(input1, input2)
 
     weights = [1, 100]
-    test_dijkstra = dijkstra.Dijkstra(test_graph, 300, 20, weights)
+    test_dijkstra = dijkstra.Dijkstra(test_graph, 120, 7, weights)
     test_dijkstra.run_dijkstra()
 
     vis.plot_connections(input1, input2, 'data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp')

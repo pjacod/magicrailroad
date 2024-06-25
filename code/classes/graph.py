@@ -105,7 +105,7 @@ class Graph():
 
     def dijkstra_cost(self, weights):
         """
-        use a list of weights to update cost for every connection for every station in graph
+        use a list of weights to set cost for every connection for every station in graph
         necessary for using dijkstra algorithm
         """
         for station_name in self.station_dict:
@@ -114,6 +114,9 @@ class Graph():
 
                 new_cost = weights[0] * station.destinations[key][0] + weights[1] * station.destinations[key][1]
                 station.destinations[key][2] = new_cost
+
+    def a_star(self, weights):
+        pass
 
 
     '''def write_output(self, output_file):
