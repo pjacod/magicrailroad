@@ -9,10 +9,10 @@ def bar_k(k_values):
     """
     iterations = range(1, len(k_values) + 1)
 
-    plt.title('k values per iteration')
-    plt.xlabel('attempts')
-    plt.ylabel('k value')
-    plt.bar(iterations, k_values)
+    plt.title('k values per iteration', color = 'mediumblue')
+    plt.xlabel('attempts', color = 'mediumblue')
+    plt.ylabel('k value', color = 'mediumblue')
+    plt.bar(iterations, k_values, color = 'mediumblue')
     plt.grid(True)
     plt.show()
 
@@ -20,10 +20,25 @@ def histogram_k(k_values):
     """
     generates a histogram visualizing the distribution of k values.
     """
-    plt.title('frequency per k_value')
-    plt.xlabel('k_value')
-    plt.ylabel('frequency')
-    plt.hist(k_values, bins = 100)
+    plt.title('frequency per k_value', color = 'mediumblue')
+    plt.xlabel('k_value', color = 'mediumblue')
+    plt.ylabel('frequency', color = 'mediumblue')
+    plt.hist(k_values, bins = 100, color='mediumblue')
+    plt.grid(True)
+    plt.show()
+
+def boxplot_k(k_values):
+    """
+    generates a boxplot of k values.
+    """
+    plt.title('boxplot of k values', color = 'mediumblue')
+
+    # all the characteristics of a box plot, costumizing the colors
+    plt.boxplot(k_values, patch_artist = True, medianprops = dict(color='mediumblue', linewidth = 2),
+                    boxprops = dict(facecolor = 'gold', edgecolor = 'mediumblue', linewidth = 2),
+                    whiskerprops = dict(color = 'mediumblue', linewidth = 2),
+                    capprops = dict(color = 'mediumblue', linewidth = 2))
+    plt.xlabel('k value', color = 'mediumblue')
     plt.grid(True)
     plt.show()
 
@@ -38,7 +53,7 @@ def plot_stations(stations_df, ax):
     stations_gdf = gpd.GeoDataFrame(stations_df, geometry = geometry)
 
     # plot the stations
-    stations_gdf.plot(ax = ax, color = 'blue')
+    stations_gdf.plot(ax = ax, color = 'mediumblue')
 
     for i, row in stations_gdf.iterrows():
 
@@ -103,16 +118,17 @@ def plot_connections(stations_file, connections_file, shape_file):
     for line, distance in connections:
         gpd.GeoSeries([line]).plot(ax = ax, color = 'red')
 
-    plt.title('Train stations and connections in Noord- and Zuid-Holland')
 
     # if for all of the Netherlands
     if stations_file == "data/StationsNationaal.csv":
+        plt.title('Train stations and connections in the Netherlands', color = 'mediumblue')
         ax.set_xlim(3.3, 7.25)
         ax.set_ylim(50.7, 53.6)
 
     # if only for Noord- and Zuid-Holland
     if stations_file == "data/StationsHolland.csv":
         ax.set_xlim(4.0, 5.1)
+        plt.title('Train stations and connections in  Noord- and Zuid-Holland', color = 'mediumblue')
         ax.set_ylim(51.75, 53.1)
 
     plt.show()
@@ -140,17 +156,17 @@ def plot_routes(stations_file, connections_file, shape_file, routes):
     for route_number, route in routes.items():
         route_coords = [(station.location[0], station.location[1]) for station in route.itinerary]
         route_line = LineString(route_coords)
-        gpd.GeoSeries([route_line]).plot(ax = ax, color = 'yellow', linewidth = 3, alpha = 0.5)
-
-    plt.title('Programmed routes in Noord- and Zuid-Holland')
+        gpd.GeoSeries([route_line]).plot(ax = ax, color = 'red', linewidth = 3, alpha = 0.5)
 
     # if for all of the Netherlands
     if stations_file == "data/StationsNationaal.csv":
+        plt.title('Programmed routes in the Netherlands', color = 'mediumblue')
         ax.set_xlim(3.3, 7.25)
         ax.set_ylim(50.7, 53.6)
 
     # if only for Noord- and Zuid-Holland
     if stations_file == "data/StationsHolland.csv":
+        plt.title('Train stations and connections in Noord- and Zuid-Holland', color = 'mediumblue')
         ax.set_xlim(4.0, 5.1)
         ax.set_ylim(51.75, 53.1)
 
