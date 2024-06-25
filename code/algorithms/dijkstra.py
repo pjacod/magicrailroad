@@ -8,11 +8,12 @@ import copy
 from code.classes import graph
 
 class Dijkstra():
-    def __init__(self, graph, weights):
+    def __init__(self, graph, weights, a_star_layers=0):
         self.graph = copy.deepcopy(graph)
         self.dead_end_list = self.dead_end(self.graph.station_dict)
 
         self.weights = weights
+        self.a_star_layers = a_star_layers
 
 
     def dead_end(self, station_dict):
@@ -77,10 +78,11 @@ class Dijkstra():
         route.add_station(start_station, 0)
 
         while route.time <= self.graph.max_time:
+            current_station = route.itinerary[-1]
 
-            destinations = route.present_destinations(route.itinerary[-1].name)
+            destinations = route.present_destinations(current_station.name)
 
-            # not exceeding the 120 minutes
+            # not exceeding the max minutes
             max_time = self.graph.max_time - route.time
 
             min_cost = 10000
@@ -90,10 +92,16 @@ class Dijkstra():
             for destination, value in destinations.items():
 
                 distance = value[0]
-                cost = value[2]
 
-                # skip previous station, as we do not want to backtrack
-                if destination != route.itinerary[-1].name and distance <= max_time:
+                if distance <= max_time:
+
+                    if self.a_star_layers == 0:
+                        if len(route.itinerary > 1):
+                            if route.itinerary[-2].name != destination:
+                                cost = value[2]
+
+                    else:
+                        cost = self.a_star(destination, value)
 
                     if cost <= min_cost:
                         min_cost = cost
@@ -101,11 +109,54 @@ class Dijkstra():
                         destination_boolean = True
                         time = distance
 
+
+
             if destination_boolean:
                 route.add_station(route.station_dict[min_destination], time, self.weights)
 
             else:
                 break
+
+
+    def a_star(self, destination_name, value):
+        """
+        returns cost based on a_star_layers ahead of current destination
+        cost is percentage of total connections in next layers that are still open
+        """
+        cost = 1000
+        potential = 0
+
+
+        # add 100 potential if current connection is unused
+        if value[1] == 0:
+            potential += 200
+
+        previous_list = [self.graph.station_dict[destination_name]]
+        for layer in range(self.a_star_layers):
+            all_stations = []
+            open_count = 0
+            total_count = 0
+
+            for station in previous_list:
+                open_count += station.open
+                total_count += len(station.destinations.keys())
+
+                for next_station_name in station.destinations.keys():
+                    all_stations.append(self.graph.station_dict[next_station_name])
+
+            previous_list = all_stations
+
+            percentage = 100 * (open_count / total_count)
+            potential += percentage
+
+        cost -= potential
+        return cost
+
+
+
+
+
+
 
 
     def deadend_start(self):
@@ -127,7 +178,7 @@ class Dijkstra():
 
             self.random_greedy(start_station, route)
 
-        while self.graph.check_open():
+        while self.graph.check_open() and i < self.graph.max_routes:
 
             i += 1
 
@@ -142,7 +193,7 @@ class Dijkstra():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                self.random_greedy(start_station, route)
+                self.dijkstra_like(start_station, route)
 
             else:
                 for station in self.graph.open_list:
@@ -152,7 +203,7 @@ class Dijkstra():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                self.random_greedy(start_station, route)
+                self.dijkstra_like(start_station, route)
 
 
 
@@ -169,6 +220,8 @@ class Dijkstra():
             start_station = random.choice(self.graph.open_list)
             route = self.graph.route_dict[str(i)]
             self.random_greedy(start_station, route)
+
+
 
     def select_pairs():
         pass

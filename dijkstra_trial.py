@@ -11,7 +11,7 @@ def loop_dijkstra(input1, input2, iterations):
         test_graph = graph.Graph(input1, input2)
 
         weights = [1, 100]
-        test_dijkstra = dijkstra.Dijkstra(test_graph, weights)
+        test_dijkstra = dijkstra.Dijkstra(test_graph, weights, 2)
         k = test_dijkstra.run_dijkstra()
 
         lst_k_values.append(k)
