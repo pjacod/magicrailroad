@@ -32,7 +32,7 @@ def random_routes(route_dict):
             # iterate through destinations and travel time
             for destination, distance in destinations.items():
                 # if travel time is small enough: add to possible_options
-                if distance <= max_time:
+                if distance[0] <= max_time:
                     possible_options[destination] = distance
 
             # if no more possible_options: break
@@ -41,7 +41,7 @@ def random_routes(route_dict):
 
             # randomly select one of the possible destinations
             choice = random.choice(list(possible_options.keys()))
-            time = possible_options[choice]
+            time = possible_options[choice][0]
 
             # make sure to add the Station instance and not just name
             route.add_station(route.station_dict[choice], time)
