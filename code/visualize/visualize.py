@@ -14,6 +14,7 @@ def bar_k(k_values):
     plt.ylabel('k value', color = 'mediumblue')
     plt.bar(iterations, k_values, color = 'mediumblue')
     plt.grid(True)
+    plt.savefig('visualizations/bar_k.png')
     plt.show()
 
 def histogram_k(k_values):
@@ -25,6 +26,8 @@ def histogram_k(k_values):
     plt.ylabel('frequency', color = 'mediumblue')
     plt.hist(k_values, bins = 100, color='mediumblue')
     plt.grid(True)
+    plt.savefig('visualizations/histogram_k.png')
+
     plt.show()
 
 def boxplot_k(k_values):
@@ -169,6 +172,8 @@ def plot_routes(stations_file, connections_file, shape_file, routes):
         plt.title('Train stations and connections in Noord- and Zuid-Holland', color = 'mediumblue')
         ax.set_xlim(4.0, 5.1)
         ax.set_ylim(51.75, 53.1)
+
+    plt.savefig('visualizations/route_visualization.png')
 
     plt.tight_layout()
     plt.show()
