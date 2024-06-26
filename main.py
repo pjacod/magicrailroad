@@ -13,6 +13,7 @@ def main(input1, input2, output_file, iterations):
 
     vis.bar_k(lst_k_values)
     vis.histogram_k(lst_k_values)
+    vis.boxplot_k(lst_k_values)
     vis.plot_connections(input1, input2, 'data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp')
     vis.plot_routes(input1, input2, 'data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp', test_graph.route_dict)
     test_graph.show_routes()

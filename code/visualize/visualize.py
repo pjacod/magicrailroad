@@ -2,6 +2,10 @@ from matplotlib import pyplot as plt
 import pandas as pd
 from shapely.geometry import Point, LineString
 import geopandas as gpd
+import time
+
+timestamp = time.strftime("%Y%m%d-%H%M")
+
 
 def bar_k(k_values):
     """
@@ -14,7 +18,7 @@ def bar_k(k_values):
     plt.ylabel('k value', color = 'mediumblue')
     plt.bar(iterations, k_values, color = 'mediumblue')
     plt.grid(True)
-    plt.savefig('visualizations/bar_k.png')
+    plt.savefig(f'visualizations/bar_k_{timestamp}.png')
     plt.show()
 
 def histogram_k(k_values):
@@ -26,8 +30,7 @@ def histogram_k(k_values):
     plt.ylabel('frequency', color = 'mediumblue')
     plt.hist(k_values, bins = 100, color='mediumblue')
     plt.grid(True)
-    plt.savefig('visualizations/histogram_k.png')
-
+    plt.savefig(f'visualizations/histogram_k_{timestamp}.png')
     plt.show()
 
 def boxplot_k(k_values):
@@ -43,6 +46,7 @@ def boxplot_k(k_values):
                     capprops = dict(color = 'mediumblue', linewidth = 2))
     plt.xlabel('k value', color = 'mediumblue')
     plt.grid(True)
+    plt.savefig(f'visualizations/boxplot_k_{timestamp}.png')
     plt.show()
 
 def plot_stations(stations_df, ax):
@@ -173,7 +177,6 @@ def plot_routes(stations_file, connections_file, shape_file, routes):
         ax.set_xlim(4.0, 5.1)
         ax.set_ylim(51.75, 53.1)
 
-    plt.savefig('visualizations/route_visualization.png')
-
+    plt.savefig(f'visualizations/route_visualization_{timestamp}.png')
     plt.tight_layout()
     plt.show()
