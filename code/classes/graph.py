@@ -85,6 +85,10 @@ class Graph():
         return self.open
 
 
+    def amount_routes(self):
+        return random.randint(1, self.max_routes)
+
+
     def add_routes(self, total_routes):
         """
         creates instances of class Route

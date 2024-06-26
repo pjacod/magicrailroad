@@ -50,9 +50,11 @@ class Hillclimber():
             self.check_graph(new_graph)
 
             # append k_value of chosen graph to list
-            k_values.append(self.graph.calculate_k())
+            k_value = self.graph.calculate_k()
+            k_values.append(k_value)
 
-        return self.graph, k_values
+
+        return k_value
 
 
     def starting_state(self, route):
