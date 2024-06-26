@@ -25,7 +25,6 @@ class Station():
         # set self.open
         self.open = len(self.destinations.keys())
 
-        print(self.destinations)
 
     def __repr__(self):
         return self.name
