@@ -74,25 +74,23 @@ def loop_hill_climber(input1, input2, iterations):
         for division in lst_divisions:
             experiment_kwargs['divisions'] = division
 
-            # create a graph
+            # create a graph and add routes
             test_climber = graph.Graph(input1, input2)
             amount = test_climber.amount_routes()
-
-            # add routes to graph
             test_climber.add_routes(amount)
 
             # create hill_climber and initiate k_value of one run
             hill_climber = hc.Hillclimber(test_climber, experiment_kwargs['Progression_bool'], experiment_kwargs['divisions'])
-            k_value = hill_climber.run(10)
 
-            best_k_value = k_value
+            best_k_value = 0
 
-            # run algorithm again and take for specific parameters the best k_value
-            for test_climbers in range(10):
-                new_k_value, graph = hill_climber.run(10)
+            # run algorithm 10 times and take for specific parameters the best k_value
+            for climbers in range(10):
+                new_k_value, test_climber = hill_climber.run(10)
 
-                if new_k_value >= k_value:
+                if new_k_value >= best_k_value:
                     best_k_value = new_k_value
+
 
                 # save results of all k_values and best_k_values in a list
                 results = []
@@ -109,6 +107,7 @@ def loop_hill_climber(input1, input2, iterations):
 
             # print iteration every division
             print('run_completed')
+
 
     return best_graph, lst_k_values
 
