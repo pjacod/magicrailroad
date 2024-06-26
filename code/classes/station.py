@@ -25,9 +25,5 @@ class Station():
         # set self.open
         self.open = len(self.destinations.keys())
 
-<<<<<<< HEAD
-
-=======
->>>>>>> b0b45e377a5e3471ba3f7f5c708673d54561ef13
     def __repr__(self):
         return self.name
