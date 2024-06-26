@@ -44,4 +44,4 @@ if __name__ == "__main__":
         # Read arguments from command line
         args = parser.parse_args()
 
-        main(args.input1, args.input2, 100)
+        main(args.input1, args.input2, 10)
