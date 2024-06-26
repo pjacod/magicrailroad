@@ -8,12 +8,14 @@ import copy
 from code.classes import graph
 
 class Greedy():
-    def __init__(self, graph, weights, a_star_layers=0):
+    def __init__(self, graph, weights, a_star_layers=0, random_start_bool=True, random_method=False):
         self.graph = copy.deepcopy(graph)
         self.dead_end_list = self.dead_end(self.graph.station_dict)
 
         self.weights = weights
         self.a_star_layers = a_star_layers
+        self.random_start_bool = random_start_bool
+        self.random_method = random_method
 
 
     def dead_end(self, station_dict):
@@ -84,7 +86,6 @@ class Greedy():
 
             # not exceeding the max minutes
             max_time = self.graph.max_time - route.time
-
             min_cost = 10000
 
             destination_boolean = False
@@ -96,9 +97,11 @@ class Greedy():
                 if distance <= max_time:
 
                     if self.a_star_layers == 0:
-                        if len(route.itinerary > 1):
+                        if len(route.itinerary) > 1:
                             if route.itinerary[-2].name != destination:
                                 cost = value[2]
+                        else:
+                            cost = value[2]
 
                     else:
                         cost = self.a_star(destination, value, max_time)
@@ -166,7 +169,7 @@ class Greedy():
 
 
 
-    def deadend_start(self, random_method=True):
+    def deadend_start(self):
         """
         creates routes starting from each dead end station.
         runs until there are no more dead ends
@@ -184,7 +187,7 @@ class Greedy():
             route = self.graph.route_dict[str(i)]
 
             # check which algorithm to use
-            if random_method:
+            if self.random_method:
                 self.random_greedy(start_station, route)
             else:
                 self.distance_greedy(start_station, route)
@@ -195,7 +198,7 @@ class Greedy():
             i += 1
 
             # find specific station to start from from those in self.graph.open_list
-            # HEURISTIC, trying to start from those with 1, 3, 5 open connections
+            # HEURISTIC, trying to start from those with 1 open connection
             start_options = []
             for station in self.graph.open_list:
                 if station.open == 1:
@@ -207,7 +210,7 @@ class Greedy():
                 route = self.graph.route_dict[str(i)]
 
                 # check which algorithm to use
-                if random_method:
+                if self.random_method:
                     self.random_greedy(start_station, route)
                 else:
                     self.distance_greedy(start_station, route)
@@ -220,9 +223,9 @@ class Greedy():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                
+
                 # check which algorithm to use
-                if random_method:
+                if self.random_method:
                     self.random_greedy(start_station, route)
                 else:
                     self.distance_greedy(start_station, route)
@@ -241,7 +244,11 @@ class Greedy():
             i += 1
             start_station = random.choice(self.graph.open_list)
             route = self.graph.route_dict[str(i)]
-            self.random_greedy(start_station, route)
+            # check which algorithm to use
+            if self.random_method:
+                self.random_greedy(start_station, route)
+            else:
+                self.distance_greedy(start_station, route)
 
 
 
@@ -256,9 +263,10 @@ class Greedy():
 
         self.graph.add_routes(self.graph.max_routes)
 
-
-        self.deadend_start()
-        #self.random_start()
+        if self.random_start_bool == True:
+            self.random_start()
+        else:
+            self.deadend_start()
 
         print(f'K = {self.graph.calculate_k()}')
         return(self.graph.calculate_k())
