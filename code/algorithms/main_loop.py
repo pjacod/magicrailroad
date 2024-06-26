@@ -1,6 +1,6 @@
 from code.algorithms import randomise
 from code.classes import graph
-from code.algorithms import hill_climber as hc
+
 
 def main_loop(input1, input2, iterations):
     lst_k_values = []
