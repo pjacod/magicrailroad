@@ -14,6 +14,7 @@ pip install geopandas
 
 pip install shapely
 
+
 **Gebruik**
 
 Voor een kaart van Nederlandse intercity routes, roep dan het volgende aan:
@@ -24,6 +25,7 @@ python main.py data/StationsNationaal.csv data/ConnectiesNationaal.csv output_fi
 Voor een kaart van Noord- en Zuid-Hollandse intercity routes, roep dan het volgende aan:
 
 python main.py data/StationsHolland.csv data/ConnectiesHolland.csv output_file.csv
+
 
 **Structuur**
 
