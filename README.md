@@ -8,11 +8,7 @@ Dat betekent dat er binnen een 120 een aantal trajecten uitgezet worden. Een tra
 
 **Aan de slag**
 
-Deze code is geschreven in Python 3.10.8. Hieronder staan alle benodigde packages om de code succesvol te draaien. Deze zijn te installeren met de volgende terminal input:
-
-pip install geopandas
-
-pip install shapely
+Deze code is geschreven in Python 3.10.8. Hieronder staan alle benodigde packages om de code succesvol te draaien. Deze zijn te vinden in requirements.txt
 
 
 **Gebruik**

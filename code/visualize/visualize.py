@@ -62,7 +62,15 @@ def plot_stations(stations_df, ax):
     # plot the stations
     stations_gdf.plot(ax = ax, color = 'mediumblue')
 
+    # stations to exclude from plot to avoid overlap
+    exclude_stations = ['Amsterdam Amstel', 'Heemstede-Aerdenhout', 'Den Haag Centraal', 'Delft',
+                        'Schiedam Centrum', 'Rotterdam Alexander', 'Etten-Leur', 'Den Haag Laan v NOI', 'Almere Centrum', 'Amsterdam Zuid']
+
     for i, row in stations_gdf.iterrows():
+
+        # excluding stations
+        if row['station'] in exclude_stations:
+            continue
 
         # for these three stations:
         if row['station'] in ['Rotterdam Centraal', 'Amsterdam Centraal', 'Amsterdam Amstel']:
