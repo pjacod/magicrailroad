@@ -7,7 +7,7 @@ import random
 import copy
 from code.classes import graph
 
-class Dijkstra():
+class Greedy():
     def __init__(self, graph, weights, a_star_layers=0):
         self.graph = copy.deepcopy(graph)
         self.dead_end_list = self.dead_end(self.graph.station_dict)
@@ -70,7 +70,7 @@ class Dijkstra():
             route.add_station(route.station_dict[choice], time)
 
 
-    def dijkstra_like(self, start_station, route):
+    def distance_greedy(self, start_station, route):
         """
         start_station = Station instance (NOT station name)
         rus
@@ -188,7 +188,7 @@ class Dijkstra():
             # selects a route to build from graph dictionary
             route = self.graph.route_dict[str(i)]
 
-            self.dijkstra_like(start_station, route)
+            self.distance_greedy(start_station, route)
 
         while self.graph.check_open() and i < self.graph.max_routes:
 
@@ -205,7 +205,7 @@ class Dijkstra():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                self.dijkstra_like(start_station, route)
+                self.distance_greedy(start_station, route)
 
             else:
                 for station in self.graph.open_list:
@@ -215,7 +215,7 @@ class Dijkstra():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                self.dijkstra_like(start_station, route)
+                self.distance_greedy(start_station, route)
 
 
 
@@ -235,21 +235,14 @@ class Dijkstra():
 
 
 
-    def select_pairs():
-        pass
-
-    def proper_dijkstra():
+    def run_greedy(self):
         """
-        """
-        pass
-
-    def run_dijkstra(self):
-        """
-        creates a Graph, then runs the dijkstra algorithm.
+        creates a Graph, then runs the greedy algorithm.
         'distance' or cost is based on the time, and how many times a connection has been run
-        weights is a list, containing weights for [time, connection?]
+        when running an astar-like greedy, only connection will be taken into account
+        weights is a list, containing weights for [time, connection]
         """
-        self.graph.dijkstra_cost(self.weights)
+        self.graph.define_cost(self.weights)
 
         self.graph.add_routes(self.graph.max_routes)
 

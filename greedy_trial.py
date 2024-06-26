@@ -1,22 +1,22 @@
 import pandas as pd
 import argparse
 from code.classes import graph
-from code.algorithms import dijkstra
+from code.algorithms import greedy
 from code.visualize import visualize as vis
 
-def loop_dijkstra(input1, input2, iterations):
+def loop_greedy(input1, input2, iterations):
     lst_k_values = []
     for solution in range(iterations):
         # create a scenario
         test_graph = graph.Graph(input1, input2)
 
         weights = [1, 100]
-        test_dijkstra = dijkstra.Dijkstra(test_graph, weights, 3)
-        k = test_dijkstra.run_dijkstra()
+        test_greedy = greedy.Greedy(test_graph, weights, 3)
+        k = test_greedy.run_greedy()
 
         lst_k_values.append(k)
         if k >= max(lst_k_values):
-            best_graph = test_dijkstra.graph
+            best_graph = test_greedy.graph
 
         print(f'this is iteration: {solution}')
 
@@ -24,7 +24,7 @@ def loop_dijkstra(input1, input2, iterations):
 
 
 def main(input1, input2, iterations):
-    best_graph, lst_k_values = loop_dijkstra(input1, input2, iterations)
+    best_graph, lst_k_values = loop_greedy(input1, input2, iterations)
 
     vis.bar_k(lst_k_values)
     vis.histogram_k(lst_k_values)

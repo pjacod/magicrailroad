@@ -147,10 +147,10 @@ class Graph():
         return self.k_value
 
 
-    def dijkstra_cost(self, weights):
+    def define_cost(self, weights):
         """
         use a list of weights to set cost for every connection for every station in graph
-        necessary for using dijkstra algorithm
+        necessary for using greedy algorithm
         """
         for station_name in self.station_dict:
             station = self.station_dict[station_name]
