@@ -54,7 +54,6 @@ class Hillclimber():
             k_value = self.graph.calculate_k()
             k_values.append(k_value)
 
-
         return k_value, self.graph
 
 
@@ -62,7 +61,6 @@ class Hillclimber():
         '''
         initializes a random starting state
         '''
-        print(route.station_dict)
         station_names = list(route.station_dict.keys())
         choice = random.choice(station_names)
         route.add_station(route.station_dict[choice], 0)
@@ -74,7 +72,6 @@ class Hillclimber():
         '''
         creates a random itinerary for a route instance
         '''
-
         while route.time <= self.graph.max_time:
 
             #randomly stop adding connections

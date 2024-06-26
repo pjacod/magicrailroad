@@ -43,7 +43,7 @@ def generate_combinations():
         for number_2 in possible_numbers:
             for number_3 in possible_numbers:
                 lst_combinations.append([number_1, number_2, number_3])
-                
+
     return lst_combinations
 
 
@@ -53,13 +53,6 @@ def loop_hill_climber(input1, input2, iterations):
     These parameters consist of if the hill climber uses progression for applied changes to the graph
     and how much each changes function alters a route
     '''
-
-    # create a graph
-    test_climber = graph.Graph(input1, input2)
-    amount = test_climber.amount_routes()
-
-    # add routes to graph
-    test_climber.add_routes(amount)
 
     lst_progression_bool = [False, True]
     lst_divisions = generate_combinations()
@@ -81,18 +74,23 @@ def loop_hill_climber(input1, input2, iterations):
         for division in lst_divisions:
             experiment_kwargs['divisions'] = division
 
+            # create a graph and add routes
+            test_climber = graph.Graph(input1, input2)
+            amount = test_climber.amount_routes()
+            test_climber.add_routes(amount)
+
             # create hill_climber and initiate k_value of one run
             hill_climber = hc.Hillclimber(test_climber, experiment_kwargs['Progression_bool'], experiment_kwargs['divisions'])
-            k_value = hill_climber.run(10)
 
-            best_k_value = k_value
+            best_k_value = 0
 
-            # run algorithm again and take for specific parameters the best k_value
-            for test_climbers in range(10):
-                new_k_value, graph = hill_climber.run(10)
+            # run algorithm 10 times and take for specific parameters the best k_value
+            for climbers in range(10):
+                new_k_value, test_climber = hill_climber.run(10)
 
-                if new_k_value >= k_value:
+                if new_k_value >= best_k_value:
                     best_k_value = new_k_value
+
 
                 # save results of all k_values and best_k_values in a list
                 results = []
@@ -102,17 +100,16 @@ def loop_hill_climber(input1, input2, iterations):
                 exp_name = generate_experiment_name('Progression_disabled')
                 export_result_to_csv(f'data/data_hill_climber/{exp_name}', experiment_kwargs, results)
 
-            print(best_k_value)
             # save graph of parameters with the best results
             lst_k_values.append(best_k_value)
             if best_k_value >= max(lst_k_values):
-                best_graph = test_climber.graph
+                best_graph = test_climber
 
             # print iteration every division
             print('run_completed')
 
-    return best_graph, lst_k_values
 
+    return best_graph, lst_k_values
 
 
 def main(input1, input2, iterations):
