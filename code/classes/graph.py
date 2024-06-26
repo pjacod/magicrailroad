@@ -162,13 +162,21 @@ class Graph():
     def a_star(self, weights):
         pass
 
+    def check_50(self, filename):
+        '''
+        saves the last route and k_value, and writes them to an output file for the check50
+        '''
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
 
-    '''def write_output(self, output_file):
-        """
-        writes the route number and route percentages to an output file.
-        """
-        with open(output_file, 'w', newline='') as f:
-            writer = csv.writer(f)
-            f.write("Route, Percentage Used, Percentage Unused")
-            for route_number, percentages in self.route_percentages.items():
-                writer.writerow([route_number, f"{percentages['used']}", f"{percentages['unused']:}"])'''
+            # write routes
+            writer.writerow(['train', 'stations'])
+            for name, route in self.route_dict.items():
+                stations_list = [station.name for station in route.itinerary]
+
+                # join station names with comma and space
+                stations_str = ', '.join(stations_list)
+                writer.writerow([f'train_{name}', f'[{stations_str}]'])
+
+            # write score
+            writer.writerow(['score', self.k_value])

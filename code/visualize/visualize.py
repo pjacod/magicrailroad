@@ -4,8 +4,8 @@ from shapely.geometry import Point, LineString
 import geopandas as gpd
 import time
 
+# timestamp for each saved image
 timestamp = time.strftime("%Y%m%d-%H%M")
-
 
 def bar_k(k_values):
     """
@@ -39,7 +39,7 @@ def boxplot_k(k_values):
     """
     plt.title('boxplot of k values', color = 'mediumblue')
 
-    # all the characteristics of a box plot, costumizing the colors
+    # all the properties of a box plot, costumizing the colors and with of properties
     plt.boxplot(k_values, patch_artist = True, medianprops = dict(color='mediumblue', linewidth = 2),
                     boxprops = dict(facecolor = 'gold', edgecolor = 'mediumblue', linewidth = 2),
                     whiskerprops = dict(color = 'mediumblue', linewidth = 2),
@@ -177,6 +177,7 @@ def plot_routes(stations_file, connections_file, shape_file, routes):
         ax.set_xlim(4.0, 5.1)
         ax.set_ylim(51.75, 53.1)
 
+    # save image to folder
     plt.savefig(f'visualizations/route_visualization_{timestamp}.png')
     plt.tight_layout()
     plt.show()
