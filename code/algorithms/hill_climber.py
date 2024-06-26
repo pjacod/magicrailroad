@@ -3,12 +3,13 @@ import random
 
 class Hillclimber():
 
-    def __init__(self, graph, progression, iteration_division = None):
+    def __init__(self, graph, progression = False, division = [3, 2, 1.5], iteration_division = [0.2, 0.2, 0.2, 0.2, 0.2]):
         self.graph = copy.deepcopy(graph)
         self.route_dict = self.graph.route_dict
 
-        self.iterations_division = iteration_division
         self.progression = progression
+        self.division = division
+        self.iterations_division = iteration_division
 
     def run(self, iterations, progression = False):
         '''
@@ -54,14 +55,14 @@ class Hillclimber():
             k_values.append(k_value)
 
 
-        return k_value
+        return k_value, self.graph
 
 
     def starting_state(self, route):
         '''
         initializes a random starting state
         '''
-
+        print(route.station_dict)
         station_names = list(route.station_dict.keys())
         choice = random.choice(station_names)
         route.add_station(route.station_dict[choice], 0)
@@ -210,21 +211,21 @@ class Hillclimber():
         '''
         removes and adds rougly two thirds of a random routes' itinerary
         '''
-        self.replace_itinerary(chosen_route, 3)
+        self.replace_itinerary(chosen_route, self.division[0])
 
 
     def changes_scale_3(self, graph, chosen_route_key, chosen_route):
         '''
         removes and adds half of a random routes' itinerary
         '''
-        self.replace_itinerary(chosen_route, 2)
+        self.replace_itinerary(chosen_route, self.division[1])
 
 
     def changes_scale_4(self, graph, chosen_route_key, chosen_route):
         '''
         removes and adds roughly a third of a random routes' itinerary
         '''
-        self.replace_itinerary(chosen_route, 1.5)
+        self.replace_itinerary(chosen_route, self.division[2])
 
 
     def changes_scale_5(self, graph, chosen_route_key, chosen_route):
