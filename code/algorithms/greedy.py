@@ -73,7 +73,7 @@ class Greedy():
     def distance_greedy(self, start_station, route):
         """
         start_station = Station instance (NOT station name)
-        rus
+        selects destination based on distance and whether connection has been completed
         """
         route.add_station(start_station, 0)
 
@@ -166,12 +166,7 @@ class Greedy():
 
 
 
-
-
-
-
-
-    def deadend_start(self):
+    def deadend_start(self, random_method=True):
         """
         creates routes starting from each dead end station.
         runs until there are no more dead ends
@@ -188,7 +183,12 @@ class Greedy():
             # selects a route to build from graph dictionary
             route = self.graph.route_dict[str(i)]
 
-            self.distance_greedy(start_station, route)
+            # check which algorithm to use
+            if random_method:
+                self.random_greedy(start_station, route)
+            else:
+                self.distance_greedy(start_station, route)
+
 
         while self.graph.check_open() and i < self.graph.max_routes:
 
@@ -205,7 +205,12 @@ class Greedy():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                self.distance_greedy(start_station, route)
+
+                # check which algorithm to use
+                if random_method:
+                    self.random_greedy(start_station, route)
+                else:
+                    self.distance_greedy(start_station, route)
 
             else:
                 for station in self.graph.open_list:
@@ -215,7 +220,12 @@ class Greedy():
                 start_station = random.choice(start_options)
 
                 route = self.graph.route_dict[str(i)]
-                self.distance_greedy(start_station, route)
+                
+                # check which algorithm to use
+                if random_method:
+                    self.random_greedy(start_station, route)
+                else:
+                    self.distance_greedy(start_station, route)
 
 
 

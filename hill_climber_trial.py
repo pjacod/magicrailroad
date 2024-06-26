@@ -1,14 +1,16 @@
 import pandas as pd
 import argparse
+import csv
+import os
 from code.classes import graph
 from code.algorithms import hill_climber as hc
 from code.visualize import visualize as vis
 
-def experiment_name(Progression_bool_status, changes_iterations = ''):
+def generate_experiment_name(Progression_bool_status, changes_iterations = ''):
     """
     Generates a filename for an experiment
     """
-    return print('result_' + Progression_bool_status + '_' + changes_iterations + '.csv')
+    return 'result_' + Progression_bool_status + '_' + changes_iterations + '.csv'
 
 
 def export_result_to_csv(experiment_path, exp_kwargs, results):
@@ -19,77 +21,96 @@ def export_result_to_csv(experiment_path, exp_kwargs, results):
     exp_params = tuple(exp_kwargs.keys())
     exp_param_values = tuple(exp_kwargs.values())
 
+    os.makedirs(os.path.dirname(experiment_path), exist_ok=True)
+
     with open(experiment_path, 'w') as output_file:
         csv_writer = csv.writer(output_file)
 
         # write header
-        csv_writer.writerow(exp_params + ('Rabbits', 'Foxes'))
+        csv_writer.writerow(exp_params + ('k_value', 'best_k_value'))
 
         # repeat experiment parameters and add the outcome for each experiment
-        for (rabbits, foxes) in results:
-            csv_writer.writerow(exp_param_values + (rabbits, foxes))
+        for k_value, best_k_value in results:
+            csv_writer.writerow(exp_param_values + (k_value, best_k_value))
+
+def generate_combinations():
+    # Define the possible numbers between 5 and 1.5 ending in .0 or .5
+    possible_numbers = [5.0, 4.5, 4.0, 3.5, 3.0, 2.5, 2.0, 1.5]
+
+    lst_combinations = []
+
+    for number_1 in possible_numbers:
+        for number_2 in possible_numbers:
+            for number_3 in possible_numbers:
+                lst_combinations.append([number_1, number_2, number_3])
+
+    return lst_combinations
+
 
 def loop_hill_climber(input1, input2, iterations):
     '''
     loops through the hill climber algorithm with different parameters.
-    THese paramters consists of if the hill climber uses progression for applied changes to the graph
-    and the amount of iterations each changes function runs
+    These parameters consist of if the hill climber uses progression for applied changes to the graph
+    and how much each changes function alters a route
     '''
 
+    lst_progression_bool = [False, True]
+    lst_divisions = generate_combinations()
+
+    # dictionary for arguments
+    experiment_kwargs = {
+    'Progression_bool': False,
+    'divisions': [3, 2, 1.5]
+    }
+
+    # empty list of k_values per set of parameters
     lst_k_values = []
 
-    for solution in range(iterations):
-        # create a scenario
-        test_climber = graph.Graph(input1, input2)
-        amount = test_climber.amount_routes()
+    # loop through experiments with and without progression enabled
+    for progression in lst_progression_bool:
+        experiment_kwargs['Progression_bool'] = progression
 
-        # add a route to scenario
-        test_climber.add_routes(amount)
+        # loop through experiments with different division arguments for change functions
+        for division in lst_divisions:
+            experiment_kwargs['divisions'] = division
 
-        experiment_kwargs = {
-        'Progression_bool' : [False, True],
-        'changes_iterations' : [ [0.2, 0.2, 0.2, 0.2, 0.2], [0.6, 0.1, 0.1, 0.1, 0.1],
-        [0.1, 0.6, 0.1, 0.1, 0.1], [0.1, 0.1, 0.6, 0.1, 0.1], [0.1, 0.1, 0.1, 0.6, 0.1],
-        [0.1, 0.1, 0.1, 0.1, 0.6] ]
-        }
+            # create a graph
+            test_climber = graph.Graph(input1, input2)
+            amount = test_climber.amount_routes()
 
-        for bool in experiment_kwargs['Progression_bool']:
-            if bool == False:
-                # use hill climber to choose itinerary for route
-                hill_climber = hc.Hillclimber(test_climber, bool)
-                k_value = hill_climber.run(10)
+            # add routes to graph
+            test_climber.add_routes(amount)
 
-                lst_k_values.append(k_value)
-                if k_value >= max(lst_k_values):
-                    best_graph = test_climber
+            # create hill_climber and initiate k_value of one run
+            hill_climber = hc.Hillclimber(test_climber, experiment_kwargs['Progression_bool'], experiment_kwargs['divisions'])
+            k_value = hill_climber.run(10)
 
-                # export the data to a csv file
-                experiment_name = experiment_name('Progression_disabled')
-                export_result_to_csv(f'data/{experiment_name}', bool, results)
+            best_k_value = k_value
 
-            else:
-                for iterations in experiment_kwargs['changes_iterations']:
-                    # use hill climber to choose itinerary for route
-                    hill_climber = hc.Hillclimber(test_climber, bool, iterations)
-                    k_value = hill_climber.run(10)
+            # run algorithm again and take for specific parameters the best k_value
+            for test_climbers in range(10):
+                new_k_value, graph = hill_climber.run(10)
 
-                    lst_k_values.append(k_value)
-                    if k_value >= max(lst_k_values):
-                        best_graph = test_climber
+                if new_k_value >= k_value:
+                    best_k_value = new_k_value
 
+                # save results of all k_values and best_k_values in a list
+                results = []
+                results.append((new_k_value, best_k_value))
 
-                    # export the data to a csv file
-                    experiment_name = experiment_name('Progression_enabled', str(iterations))
-                    export_result_to_csv(f'data/{experiment_name}', (bool, iterations), results)
+                # export the results to a csv file
+                exp_name = generate_experiment_name('Progression_disabled')
+                export_result_to_csv(f'data/data_hill_climber/{exp_name}', experiment_kwargs, results)
 
-        # calculate k_value of traject
-        lst_k_values.append(test_climber.calculate_k())
+            # save graph of parameters with the best results
+            lst_k_values.append(best_k_value)
+            if best_k_value >= max(lst_k_values):
+                best_graph = test_climber
 
-        if solution % 20 == 0:
-            print(solution)
+            # print iteration every division
+            print('run_completed')
 
-    return k_values, climber_graph
-
+    return best_graph, lst_k_values
 
 
 def main(input1, input2, iterations):
@@ -103,14 +124,13 @@ def main(input1, input2, iterations):
 
 if __name__ == "__main__":
 
-        # Set-up parsing command line arguments
-        parser = argparse.ArgumentParser(description = "read both input file name and writes to output file")
+    # Set-up parsing command line arguments
+    parser = argparse.ArgumentParser(description = "read both input file names")
 
-        parser.add_argument("input1", help = "input file 1 (csv)")
-        parser.add_argument("input2", help = "input file 2 (csv)")
+    parser.add_argument("input1", help = "input file 1 (csv)")
+    parser.add_argument("input2", help = "input file 2 (csv)")
 
+    # Read arguments from command line
+    args = parser.parse_args()
 
-        # Read arguments from command line
-        args = parser.parse_args()
-
-        main(args.input1, args.input2, 1)
+    main(args.input1, args.input2, 1)
