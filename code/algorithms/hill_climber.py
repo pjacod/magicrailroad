@@ -200,7 +200,7 @@ class Hillclimber():
         else:
 
             # removes a route
-            if len(graph.route_dict) > 0:
+            if len(graph.route_dict) > 1:
                 graph.remove_route(chosen_route_key)
 
 
