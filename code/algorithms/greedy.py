@@ -36,7 +36,7 @@ class Greedy():
         """
         route.add_station(start_station, 0)
 
-        while route.time <= self.graph.max_time:
+        while route.time <= self.graph.max_time and self.graph.open:
 
             destinations = route.present_destinations(route.itinerary[-1].name)
             options = list(destinations.keys())
@@ -71,6 +71,8 @@ class Greedy():
             # make sure to add the Station instance and not just name
             route.add_station(route.station_dict[choice], time)
 
+            self.graph.check_open()
+
 
     def distance_greedy(self, start_station, route):
         """
@@ -79,7 +81,7 @@ class Greedy():
         """
         route.add_station(start_station, 0)
 
-        while route.time <= self.graph.max_time:
+        while route.time <= self.graph.max_time and self.graph.open:
             current_station = route.itinerary[-1]
 
             destinations = route.present_destinations(current_station.name)
@@ -120,6 +122,8 @@ class Greedy():
 
             if destination_boolean:
                 route.add_station(route.station_dict[min_destination], time, self.weights)
+
+                self.graph.check_open()
 
             else:
                 break
@@ -268,5 +272,5 @@ class Greedy():
         else:
             self.deadend_start()
 
-        print(f'K = {self.graph.calculate_k()}')
+        #print(f'K = {self.graph.calculate_k()}')
         return(self.graph.calculate_k())
